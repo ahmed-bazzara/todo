@@ -14,6 +14,12 @@ Transform:
 
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
+Globals:
+  Function:
+    Environment:
+      Variables:
+        TABLE_NAME: ToDoTable
+
 Resources:
   # This is an SNS Topic with all default configuration properties. To learn more about the available options, see
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html
@@ -32,11 +38,41 @@ Resources:
       PrimaryKey:
         Name: id
         Type: Number
-      TableName: ToDoCollections
-      StreamSpecification:
-        StreamViewType: NEW_IMAGE
+      TableName: ToDoTable
   # This is the Lambda function definition associated with the source code: sns-payload-logger.js. For all available properties, see
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  CreateListFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Desctription: A Lambda function that creates a to-do list
+      Runtime: nodejs14.x
+      Handler: dist/handlers/create-list.createList
+      Events:
+        CreateListEvent:
+          Type: Api
+          Properties:
+            Path: /lists
+            Method: create
+            RestApiId:
+              Ref: SimpleToDoApi
+  GetListsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Desctription: A Lambda function that gets all to-do lists
+      Runtime: nodejs14.x
+      Handler: dist/handlers/get-lists.geLists
+      Events:
+        GetListsEvent:
+          Type: Api
+          Properties:
+            Path: /lists
+            Method: get
+            RestApiId:
+              Ref: SimpleToDoApi
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ToDoTable
+
   SNSPayloadLogger:
     Type: AWS::Serverless::Function
     Properties:
@@ -50,23 +86,8 @@ Resources:
           Type: SNS
           Properties:
             Topic: !Ref SimpleTopic
-        SimpleToDoApiEvent:
-          Type: Api
-          Properties:
-            Path: /lists
-            Method: get
-            RestApiId:
-              Ref: SimpleToDoApi
-        DynamoDBEvent:
-          Type: DynamoDB
-          Properties:
-            Stream:
-              !GetAtt ToDoTable.StreamArn
-            StartingPosition: TRIM_HORIZON
-            Enabled: false
       MemorySize: 128
       Timeout: 100
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
-        - AmazonAPIGatewayInvokeFullAccess
