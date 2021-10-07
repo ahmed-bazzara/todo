@@ -6,4 +6,6 @@ exports.snsPayloadLoggerHandler = async (event, context) => {
   // https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-logging.html
   console.info(event);
   console.log('here');
+
+  return { body: 'Hello World!', statusCode: 200 };
 };
