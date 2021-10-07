@@ -18,10 +18,16 @@ Resources:
           Properties:
             Topic:
               Ref: SimpleTopic
+        SimpleToDoApiEvent:
+          Type: Api
+          Properties:
+            Path: /lists
+            Method: get
       MemorySize: 128
       Timeout: 100
       Policies:
-      - AWSLambdaBasicExecutionRole
+        - AWSLambdaBasicExecutionRole
+        - AmazonAPIGatewayInvokeFullAccess
       CodeUri: SNSPayloadLogger
   ToDoTable:
     Type: AWS::Serverless::SimpleTable
