@@ -44,7 +44,7 @@ Resources:
   CreateListFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Desctription: A Lambda function that creates a to-do list
+      Description: A Lambda function that creates a to-do list
       Runtime: nodejs14.x
       Handler: dist/handlers/create-list.createList
       Events:
@@ -58,7 +58,7 @@ Resources:
   GetListsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Desctription: A Lambda function that gets all to-do lists
+      Description: A Lambda function that gets all to-do lists
       Runtime: nodejs14.x
       Handler: dist/handlers/get-lists.geLists
       Events:
