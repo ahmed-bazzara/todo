@@ -53,7 +53,7 @@ Resources:
         CreateListEvent:
           Type: Api
           Properties:
-            Path: /lists
+            Path: /createList
             Method: create
             RestApiId:
               Ref: ToDoApi
@@ -68,7 +68,7 @@ Resources:
         GetListsEvent:
           Type: Api
           Properties:
-            Path: /lists
+            Path: /getLists
             Method: get
             RestApiId:
               Ref: ToDoApi
