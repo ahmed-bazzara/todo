@@ -44,7 +44,7 @@ Resources:
             Path: /lists
             Method: get
             RestApiId:
-              Ref: ApiGatewayApi
+              Ref: SimpleToDoApi
       MemorySize: 128
       Timeout: 100
       Policies:
