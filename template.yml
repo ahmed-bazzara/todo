@@ -59,9 +59,9 @@ Resources:
           Type: DynamoDB
           Properties:
             Stream:
-              !GetAtt ToDoTable.StramArn
+              !GetAtt ToDoTable.StreamArn
             StartingPosition: TRIM_HORIZON
-            Enabled: true
+            Enabled: false
       MemorySize: 128
       Timeout: 100
       Policies:
