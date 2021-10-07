@@ -61,6 +61,7 @@ Resources:
             Stream:
               !GetAtt ToDoTable.StramArn
             StartingPosition: TRIM_HORIZON
+            Enabled: false
       MemorySize: 128
       Timeout: 100
       Policies:
