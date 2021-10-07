@@ -25,6 +25,14 @@ Resources:
       StageName: dev
       EndpointConfiguration:
         Type: REGIONAL
+
+  ToDoTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: Number
+      TableName: ToDoCollections
   # This is the Lambda function definition associated with the source code: sns-payload-logger.js. For all available properties, see
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
   SNSPayloadLogger:
@@ -32,7 +40,7 @@ Resources:
     Properties:
       Description: A Lambda function that logs the payload of messages sent to an associated SNS topic.
       Runtime: nodejs14.x
-      Handler: src/handlers/sns-payload-logger.snsPayloadLoggerHandler
+      Handler: dist/handlers/sns-payload-logger.snsPayloadLoggerHandler
       # This property associates this Lambda function with the SNS topic defined above, so that whenever the topic
       # receives a message, the Lambda function is invoked
       Events:
@@ -47,17 +55,15 @@ Resources:
             Method: get
             RestApiId:
               Ref: SimpleToDoApi
+        DynamoDBEvent:
+          Type: DynamoDB
+          Properties:
+            Stream:
+              !GetAtt ToDoTable.StramArn
+            StartingPosition: TRIM_HORIZON
       MemorySize: 128
       Timeout: 100
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
         - AmazonAPIGatewayInvokeFullAccess
-
-  ToDoTable:
-    Type: AWS::Serverless::SimpleTable
-    Properties:
-      PrimaryKey:
-        Name: id
-        Type: Number
-      TableName: ToDoCollections
