@@ -25,9 +25,10 @@ Resources:
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html
   SimpleTopic:
     Type: AWS::SNS::Topic
-  SimpleToDoApi:
+  ToDoApi:
     Type: AWS::Serverless::Api
     Properties:
+      Name: ToDoApi
       StageName: dev
       EndpointConfiguration:
         Type: REGIONAL
@@ -44,6 +45,7 @@ Resources:
   CreateListFunction:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: CreateListFunction
       Description: A Lambda function that creates a to-do list
       Runtime: nodejs14.x
       Handler: dist/handlers/create-list.createList
@@ -54,10 +56,11 @@ Resources:
             Path: /lists
             Method: create
             RestApiId:
-              Ref: SimpleToDoApi
+              Ref: ToDoApi
   GetListsFunction:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: GetListsFunction
       Description: A Lambda function that gets all to-do lists
       Runtime: nodejs14.x
       Handler: dist/handlers/get-lists.geLists
@@ -68,7 +71,7 @@ Resources:
             Path: /lists
             Method: get
             RestApiId:
-              Ref: SimpleToDoApi
+              Ref: ToDoApi
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref ToDoTable
