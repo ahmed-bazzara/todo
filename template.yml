@@ -19,7 +19,10 @@ Resources:
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html
   SimpleTopic:
     Type: AWS::SNS::Topic
-  
+  SimpleToDoApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: dev
   # This is the Lambda function definition associated with the source code: sns-payload-logger.js. For all available properties, see
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
   SNSPayloadLogger:
@@ -40,6 +43,8 @@ Resources:
           Properties:
             Path: /lists
             Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
       MemorySize: 128
       Timeout: 100
       Policies:
