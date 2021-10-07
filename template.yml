@@ -35,11 +35,17 @@ Resources:
           Type: SNS
           Properties:
             Topic: !Ref SimpleTopic
+        SimpleToDoApiEvent:
+          Type: Api
+          Properties:
+            Path: /lists
+            Method: get
       MemorySize: 128
       Timeout: 100
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
+        - AmazonAPIGatewayInvokeFullAccess
 
   ToDoTable:
     Type: AWS::Serverless::SimpleTable

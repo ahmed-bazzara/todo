@@ -26,8 +26,8 @@ Resources:
       MemorySize: 128
       Timeout: 100
       Policies:
-        - AWSLambdaBasicExecutionRole
-        - AmazonAPIGatewayInvokeFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AmazonAPIGatewayInvokeFullAccess
       CodeUri: SNSPayloadLogger
   ToDoTable:
     Type: AWS::Serverless::SimpleTable
