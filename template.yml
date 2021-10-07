@@ -33,6 +33,8 @@ Resources:
         Name: id
         Type: Number
       TableName: ToDoCollections
+      StreamSpecification:
+        StreamViewType: NEW_IMAGE
   # This is the Lambda function definition associated with the source code: sns-payload-logger.js. For all available properties, see
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
   SNSPayloadLogger:
