@@ -17,14 +17,12 @@ module.exports = {
   // entry: () => awsSamPlugin.entry(),
 
   entry: {
-    awsSdk: { import: 'aws-sdk', runtime: 'runtime' },
     createFunction: {
       import: path.resolve(
         __dirname,
         'src/handlers/create-list-function/create-list.ts'
       ),
       filename: 'createFunction/createFunction.js',
-      dependOn: ['awsSdk'],
     },
     getFunction: {
       import: path.resolve(
@@ -32,7 +30,6 @@ module.exports = {
         'src/handlers/get-lists-function/get-lists.ts'
       ),
       filename: 'getFunction/getFunction.js',
-      dependOn: ['awsSdk'],
     },
   },
 
