@@ -17,5 +17,7 @@ jobs:
           aws-region: eu-north-1
       - run: yarn
       - run: yarn run webpack
+      - run: cd src/handlers/create-list-function/
+      - run: ls
       - run: sam build --use-container --template-file ./src/handlers/create-list-function/.aws-sam/build/template.yml
       - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
