@@ -1,0 +1,43 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "createList:CreateListFunction",
+      "type": "node",
+      "request": "attach",
+      "address": "localhost",
+      "port": 5858,
+      "localRoot": "${workspaceFolder}/src/handlers/create-list-function/.aws-sam/build/CreateListFunction",
+      "remoteRoot": "/var/task",
+      "protocol": "inspector",
+      "stopOnEntry": false,
+      "outFiles": [
+        "${workspaceFolder}/src/handlers/create-list-function/.aws-sam/build/CreateListFunction/**/*.js"
+      ],
+      "sourceMaps": true,
+      "skipFiles": [
+        "/var/runtime/**/*.js",
+        "<node_internals>/**/*.js"
+      ]
+    },
+    {
+      "name": "getLists:GetListsFunction",
+      "type": "node",
+      "request": "attach",
+      "address": "localhost",
+      "port": 5858,
+      "localRoot": "${workspaceFolder}/src/handlers/get-lists-function/.aws-sam/build/GetListsFunction",
+      "remoteRoot": "/var/task",
+      "protocol": "inspector",
+      "stopOnEntry": false,
+      "outFiles": [
+        "${workspaceFolder}/src/handlers/get-lists-function/.aws-sam/build/GetListsFunction/**/*.js"
+      ],
+      "sourceMaps": true,
+      "skipFiles": [
+        "/var/runtime/**/*.js",
+        "<node_internals>/**/*.js"
+      ]
+    }
+  ]
+}

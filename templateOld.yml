@@ -47,7 +47,7 @@ Resources:
     Properties:
       FunctionName: CreateListFunction
       Description: A Lambda function that creates a to-do list
-      Runtime: nodejs14.x
+      Runtime: nodejs12.x
       Handler: dist/handlers/create-list.createList
       Events:
         CreateListEvent:
@@ -65,7 +65,7 @@ Resources:
     Properties:
       FunctionName: GetListsFunction
       Description: A Lambda function that gets all to-do lists
-      Runtime: nodejs14.x
+      Runtime: nodejs12.x
       Handler: dist/handlers/get-lists.geLists
       Events:
         GetListsEvent:
@@ -75,21 +75,21 @@ Resources:
             Method: get
             RestApiId:
               Ref: ToDoApi
-  SNSPayloadLogger:
-    Type: AWS::Serverless::Function
-    Properties:
-      Description: A Lambda function that logs the payload of messages sent to an associated SNS topic.
-      Runtime: nodejs14.x
-      Handler: dist/handlers/sns-payload-logger.snsPayloadLoggerHandler
-      # This property associates this Lambda function with the SNS topic defined above, so that whenever the topic
-      # receives a message, the Lambda function is invoked
-      Events:
-        SNSTopicEvent:
-          Type: SNS
-          Properties:
-            Topic: !Ref SimpleTopic
-      MemorySize: 128
-      Timeout: 100
-      Policies:
-        # Give Lambda basic execution Permission to the helloFromLambda
-        - AWSLambdaBasicExecutionRole
+  # SNSPayloadLogger:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     Description: A Lambda function that logs the payload of messages sent to an associated SNS topic.
+  #     Runtime: nodejs12.x
+  #     Handler: dist/handlers/sns-payload-logger.snsPayloadLoggerHandler
+  #     # This property associates this Lambda function with the SNS topic defined above, so that whenever the topic
+  #     # receives a message, the Lambda function is invoked
+  #     Events:
+  #       SNSTopicEvent:
+  #         Type: SNS
+  #         Properties:
+  #           Topic: !Ref SimpleTopic
+  #     MemorySize: 128
+  #     Timeout: 100
+  #     Policies:
+  #       # Give Lambda basic execution Permission to the helloFromLambda
+  #       - AWSLambdaBasicExecutionRole

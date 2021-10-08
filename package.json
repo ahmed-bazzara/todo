@@ -10,11 +10,22 @@
     "devDependencies": {
         "@babel/preset-env": "^7.15.8",
         "@babel/preset-typescript": "^7.15.0",
+        "@types/aws-lambda": "^8.10.83",
         "@types/jest": "^27.0.2",
         "@types/node": "^16.10.1",
-        "jest": "^26.6.3"
+        "aws-sam-webpack-plugin": "^0.11.0",
+        "jest": "^26.6.3",
+        "rimraf": "^3.0.2",
+        "ts-loader": "^9.2.6",
+        "webpack": "^5.58.1",
+        "webpack-cli": "^4.9.0"
     },
     "scripts": {
-        "test": "jest"
+        "test": "jest",
+        "build": "webpack-cli",
+        "clean": "rimraf .aws-sam .vscode",
+        "prebuild": "rimraf .aws-sam .vscode",
+        "prewatch": "rimraf .aws-sam .vscode",
+        "watch": "webpack-cli -w"
     }
 }

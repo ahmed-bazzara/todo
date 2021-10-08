@@ -1,17 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2015",
     "module": "commonjs",
-    "outDir": "./dist",
+    "sourceMap": true,
+    "rootDir": "./src",
     "strict": true,
-    "baseUrl": "src",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "types": [
-      "node"
-    ],
     "esModuleInterop": true,
-    "inlineSourceMap": true
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   }
 }
