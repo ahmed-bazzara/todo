@@ -52,8 +52,6 @@ Resources:
           Properties:
             Path: /createList
             Method: post
-            RestApiId:
-              Ref: ToDoApi
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref ToDoTable
