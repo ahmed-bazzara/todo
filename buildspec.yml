@@ -16,7 +16,7 @@ phases:
   build:
     commands:
       # Use AWS SAM to package the application by using AWS CloudFormation
-      - yarn build
+      - NODE_ENV=production yarn build
   post_build:
     commands:
       # Use AWS SAM to package the application by using AWS CloudFormation
