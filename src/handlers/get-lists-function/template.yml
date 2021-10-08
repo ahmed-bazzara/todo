@@ -45,7 +45,7 @@ Resources:
       FunctionName: GetListsFunction
       Description: A Lambda function that gets all to-do lists
       Runtime: nodejs12.x
-      Handler: get-lists.geLists
+      Handler: getFunction.geLists
       Events:
         GetListsEvent:
           Type: Api
