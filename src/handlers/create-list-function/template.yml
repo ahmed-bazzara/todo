@@ -44,7 +44,7 @@ Resources:
       CodeUri: .
       FunctionName: CreateListFunction
       Description: A Lambda function that creates a to-do list
-      Runtime: nodejs12.x
+      Runtime: nodejs14.x
       Handler: createFunction.createList
       Events:
         CreateListEvent:

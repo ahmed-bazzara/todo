@@ -44,7 +44,7 @@ Resources:
       CodeUri: .
       FunctionName: GetListsFunction
       Description: A Lambda function that gets all to-do lists
-      Runtime: nodejs12.x
+      Runtime: nodejs14.x
       Handler: getFunction.geLists
       Events:
         GetListsEvent:
