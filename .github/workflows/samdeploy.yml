@@ -15,7 +15,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-north-1
-      - run: ls
+      - run: yarn
       - run: NODE_ENV=production webpack-cli
       - run: sam build --use-container --template-file ./src/handlers/create-list-function/.aws-sam/build/template.yml
       - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
