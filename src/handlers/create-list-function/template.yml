@@ -14,11 +14,11 @@ Transform:
 
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
-Globals:
-  Function:
-    Environment:
-      Variables:
-        TABLE_NAME: ToDoTable
+# Globals:
+#   Function:
+#     Environment:
+#       Variables:
+#         TABLE_NAME: ToDoTable
 
 Resources:
   # ToDoApi:
@@ -52,7 +52,7 @@ Resources:
           Properties:
             Path: /createList
             Method: post
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref ToDoTable
+      # Policies:
+      #   - DynamoDBCrudPolicy:
+      #       TableName: !Ref ToDoTable
   
