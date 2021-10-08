@@ -16,5 +16,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-north-1
       - run: yarn
-      - run: yarn run webpack && sam build --use-container --template-file ./handlers/create-list-function/.aws-sam/build/template.yaml
+      - run: yarn run webpack && sam build --use-container --template-file dist/createFunction/template.yml
+      # - run: yarn run webpack && sam build --use-container --template-file ./handlers/create-list-function/.aws-sam/build/template.yaml
       - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
