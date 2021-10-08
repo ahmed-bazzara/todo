@@ -1,5 +1,6 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const AWS = require('aws-sdk');
 
 // const AwsSamPlugin = require('aws-sam-webpack-plugin');
 
@@ -54,11 +55,11 @@ module.exports = {
     }),
   ],
   // Write the output to the .aws-sam/build folder
-  // output: {
-  //   filename: (chunkData) => awsSamPlugin.filename(chunkData),
-  //   libraryTarget: 'commonjs2',
-  //   path: path.resolve(__dirname, 'dist'),
-  // },
+  output: {
+    filename: (chunkData) => awsSamPlugin.filename(chunkData),
+    libraryTarget: 'commonjs2',
+    path: path.resolve(__dirname, 'dist'),
+  },
 
   // Create source maps
   devtool: 'source-map',
