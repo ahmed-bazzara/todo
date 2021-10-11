@@ -37,19 +37,23 @@ module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [
+        // {
+        //   from: path.resolve(
+        //     __dirname,
+        //     'src/handlers/create-list-function/template.yml'
+        //   ),
+        //   to: 'createFunction',
+        // },
+        // {
+        //   from: path.resolve(
+        //     __dirname,
+        //     'src/handlers/get-lists-function/template.yml'
+        //   ),
+        //   to: 'getFunction',
+        // },
         {
-          from: path.resolve(
-            __dirname,
-            'src/handlers/create-list-function/template.yml'
-          ),
-          to: 'createFunction',
-        },
-        {
-          from: path.resolve(
-            __dirname,
-            'src/handlers/get-lists-function/template.yml'
-          ),
-          to: 'getFunction',
+          from: path.resolve(__dirname, 'template.yml'),
+          to: '.',
         },
       ],
     }),

@@ -23,8 +23,8 @@ Globals:
 Resources:
   # This is an SNS Topic with all default configuration properties. To learn more about the available options, see
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html
-  SimpleTopic:
-    Type: AWS::SNS::Topic
+  # SimpleTopic:
+  #   Type: AWS::SNS::Topic
   ToDoApi:
     Type: AWS::Serverless::Api
     Properties:
@@ -45,10 +45,12 @@ Resources:
   CreateListFunction:
     Type: AWS::Serverless::Function
     Properties:
+      CodeUri: .
       FunctionName: CreateListFunction
       Description: A Lambda function that creates a to-do list
       Runtime: nodejs12.x
-      Handler: dist/handlers/create-list.createList
+      # Handler: dist/handlers/create-list.createList
+      Handler: createFunction.createList
       Events:
         CreateListEvent:
           Type: Api
@@ -63,10 +65,12 @@ Resources:
   GetListsFunction:
     Type: AWS::Serverless::Function
     Properties:
+      CodeUri: .
       FunctionName: GetListsFunction
       Description: A Lambda function that gets all to-do lists
       Runtime: nodejs12.x
-      Handler: dist/handlers/get-lists.geLists
+      # Handler: dist/handlers/get-lists.geLists
+      Handler: getFunction.getLists
       Events:
         GetListsEvent:
           Type: Api
