@@ -50,7 +50,7 @@ Resources:
       Description: A Lambda function that creates a to-do list
       Runtime: nodejs12.x
       # Handler: dist/handlers/create-list.createList
-      Handler: createFunction.createList
+      Handler: createFunction/createFunction.createList
       Events:
         CreateListEvent:
           Type: Api
@@ -70,7 +70,7 @@ Resources:
       Description: A Lambda function that gets all to-do lists
       Runtime: nodejs12.x
       # Handler: dist/handlers/get-lists.geLists
-      Handler: getFunction.getLists
+      Handler: getFunction/getFunction.getLists
       Events:
         GetListsEvent:
           Type: Api
