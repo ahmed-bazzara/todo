@@ -1,4 +1,6 @@
 export const buildResponse = (statusCode: number, body?: any) => {
+  console.log('build response');
+  
   return {
     statusCode,
     headers: {

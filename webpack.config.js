@@ -52,7 +52,7 @@ module.exports = {
         //   to: 'getFunction',
         // },
         {
-          from: path.resolve(__dirname, 'template.yml'),
+          from: path.resolve(__dirname, 'template_prod.yml'),
           to: '.',
         },
       ],

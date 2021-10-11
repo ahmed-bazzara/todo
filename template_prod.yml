@@ -30,18 +30,6 @@ Resources:
     Properties:
       Name: ToDoApi
       StageName: dev
-      # Auth:
-      #   DefaultAuthorizer: MyLambdaTokenAuthorizer
-      #   Authorizers:
-      #     MyLambdaTokenAuthorizer:
-      #       FunctionArn: !GetAtt MyAuthFunction.Arn
-      Auth:
-        DefaultAuthorizer: AWS_IAM
-      # Cors:
-      #   AllowMethods: "'GET,POST,OPTIONS'"
-      #   AllowHeaders: "'content-type'"
-      #   AllowOrigin: "'*'"
-      #   AllowCredentials: "'*'"
       EndpointConfiguration:
         Type: REGIONAL
 
@@ -61,8 +49,7 @@ Resources:
       FunctionName: CreateListFunction
       Description: A Lambda function that creates a to-do list
       Runtime: nodejs12.x
-      Handler: dist/createFunction/createFunction.createList
-      Timeout: 10
+      Handler: createFunction/createFunction.createList
       Events:
         CreateListEvent:
           Type: Api
@@ -81,8 +68,7 @@ Resources:
       FunctionName: GetListsFunction
       Description: A Lambda function that gets all to-do lists
       Runtime: nodejs12.x
-      Handler: dist/getFunction/getFunction.getLists
-      Timeout: 10
+      Handler: getFunction/getFunction.getLists
       Events:
         GetListsEvent:
           Type: Api
