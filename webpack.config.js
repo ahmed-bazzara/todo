@@ -82,7 +82,7 @@ module.exports = {
   externals: process.env.NODE_ENV === 'development' ? [] : ['aws-sdk'],
 
   // Set the webpack mode
-  mode: 'production',
+  mode: process.env.NODE_ENV === 'development' ? 'development' : 'production',
 
   // Add the TypeScript loader
   module: {

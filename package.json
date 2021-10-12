@@ -27,7 +27,7 @@
         "clean": "rm -rf .aws-sam .vscode",
         "prebuild": "rm -rf .aws-sam .vscode",
         "prewatch": "rm -rf .aws-sam .vscode",
-        "watch": "webpack-cli -w",
+        "watch": "NODE_ENV=development webpack-cli -w",
         "launch:local:network": "docker network create lambda-local",
         "launch:local:docker": "docker run -d -v '$PWD':/dynamodb_local_db -p 8000:8000 --network lambda-local --name dynamodb cnadiminti/dynamodb-local",
         "launch:local:api": "sam local start-api --template-file template.docker-network lambda-local --skip-pull-image"
