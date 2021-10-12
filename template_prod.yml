@@ -90,7 +90,7 @@ Resources:
   TodoAppCognitoUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
-      UserPoolName: !Ref TodoAppUserPool
+      UserPoolName: TodoAppUserPool
       Policies:
         PasswordPolicy:
           MinimumLength: 8
@@ -104,8 +104,8 @@ Resources:
   TodoAppCognitoUserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
-      UserPoolId: !Ref TodoAppUserPool
-      ClientName: !Ref TodoAppUserPoolClient
+      UserPoolId: !Ref TodoAppCognitoUserPool
+      ClientName: TodoAppUserPoolClient
       GenerateSecret: false
   # local test sam local invoke -e ./src/handlers/get-lists-function/lambda_event.json GetListsFunction
 
