@@ -37,11 +37,11 @@ Resources:
       #       FunctionArn: !GetAtt MyAuthFunction.Arn
       Auth:
         DefaultAuthorizer: AWS_IAM
-      # Cors:
-      #   AllowMethods: "'GET,POST,OPTIONS'"
-      #   AllowHeaders: "'content-type'"
-      #   AllowOrigin: "'*'"
-      #   AllowCredentials: "'*'"
+      Cors:
+        AllowMethods: "'GET,POST,OPTIONS'"
+        AllowHeaders: "'content-type'"
+        AllowOrigin: "'*'"
+        AllowCredentials: "'*'"
       EndpointConfiguration:
         Type: REGIONAL
 
