@@ -107,6 +107,10 @@ Resources:
       UserPoolId: !Ref TodoAppCognitoUserPool
       ClientName: TodoAppUserPoolClient
       GenerateSecret: false
+      CallbackURLs:
+        - https://todoappidentitymanager.com/callback
+      LogoutURLs:
+        - https://todoappidentitymanager.com/callback
   # local test sam local invoke -e ./src/handlers/get-lists-function/lambda_event.json GetListsFunction
 
   # SNSPayloadLogger:

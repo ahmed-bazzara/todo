@@ -115,6 +115,21 @@ Resources:
       UserPoolId: !Ref TodoAppUserPool
       ClientName: !Ref TodoAppUserPoolClient
       GenerateSecret: false
+      AllowedOAuthFlows:
+        - code
+        - implicit
+      AllowedOAuthScopes:
+        - phone
+        - email
+        - openid
+        - profile
+        - aws.cognito.signin.user
+      SupportedIdentityProviders:
+        - COGNITO
+      CallbackURLs:
+        - http://localhost:3001/callback
+      LogoutURLs:
+        - http://localhost:3002/logout
   # local test sam local invoke -e ./src/handlers/get-lists-function/lambda_event.json GetListsFunction
 
   # SNSPayloadLogger:
