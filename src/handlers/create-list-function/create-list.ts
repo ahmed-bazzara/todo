@@ -1,27 +1,31 @@
 
+import * as AWS from 'aws-sdk';
+// import { DraggableContainer, DragabbleEntityType } from 'simple-ui-library';
 import { buildResponse } from '../../utilities';
 import { STOCKHOLM_REGION} from '../../aws_constants';
-import * as AWS from 'aws-sdk';
 AWS.config.update({ region: STOCKHOLM_REGION });
 
 const TableName = process.env.TABLE_NAME as string;
 const dynamodb = new AWS.DynamoDB.DocumentClient();
-export const createList = async (requestBody: any, test: any, testTwo: any) => {
-  const body = requestBody.body;
-  console.log(requestBody.id);
-  
+
+// interface CreateListBody {
+//   id: number;
+//   tickets: DragabbleEntityType[];
+//   containers: DraggableContainer[];
+// }
+
+export const createList = async (payload: any) => {
+  const data = JSON.parse(payload.body);
   const params = {
     TableName,
-    Item: requestBody
+    Item: data
   }
-  // console.log(params.TableName);
-  // console.log(params.Item);
   
   return await dynamodb.put(params).promise().then(() => {
     const body = {
       Operation: 'SAVE',
       Message: 'SUCCESS',
-      Item: requestBody
+      Item: data
     }
     console.log('here');
     
