@@ -115,7 +115,7 @@ Resources:
         - email
         - openid
         - profile
-        - aws.cognito.signin.user
+        - aws.cognito.signin.user.admin
       SupportedIdentityProviders:
         - COGNITO
       CallbackURLs:
