@@ -36,7 +36,10 @@ Resources:
       #     MyLambdaTokenAuthorizer:
       #       FunctionArn: !GetAtt MyAuthFunction.Arn
       Auth:
-        DefaultAuthorizer: AWS_IAM
+        DefaultAuthorizer: TodoAppCognitoAuthorizer
+        Authorizers:
+          TodoAppCognitoAuthorizer:
+            UserPoolArn: !GetAtt TodoAppCognitoUserPool.Arn
       Cors:
         AllowMethods: "'GET,POST,OPTIONS'"
         AllowHeaders: "'content-type'"
@@ -92,6 +95,26 @@ Resources:
             RestApiId:
               Ref: ToDoApi
 
+  TodoAppCognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: !Ref TodoAppUserPool
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+      UsernameAttributes:
+        - email
+      Schema:
+        - AttributeDataType: String
+          Name: email
+          Required: false
+  
+  TodoAppCognitoUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId: !Ref TodoAppUserPool
+      ClientName: !Ref TodoAppUserPoolClient
+      GenerateSecret: false
   # local test sam local invoke -e ./src/handlers/get-lists-function/lambda_event.json GetListsFunction
 
   # SNSPayloadLogger:

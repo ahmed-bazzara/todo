@@ -37,7 +37,11 @@ Resources:
         AllowHeaders: "'content-type'"
         AllowOrigin: "'http://todo-client-bucket.s3-website.eu-north-1.amazonaws.com/'"
         AllowCredentials: "'*'"
-
+      Auth:
+        DefaultAuthorizer: TodoAppCognitoAuthorizer
+        Authorizers:
+          TodoAppCognitoAuthorizer:
+            UserPoolArn: !GetAtt TodoAppCognitoUserPool.Arn
   ToDoTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
@@ -82,7 +86,27 @@ Resources:
             Method: get
             RestApiId:
               Ref: ToDoApi
-
+              
+  TodoAppCognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: !Ref TodoAppUserPool
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+      UsernameAttributes:
+        - email
+      Schema:
+        - AttributeDataType: String
+          Name: email
+          Required: false
+  
+  TodoAppCognitoUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId: !Ref TodoAppUserPool
+      ClientName: !Ref TodoAppUserPoolClient
+      GenerateSecret: false
   # local test sam local invoke -e ./src/handlers/get-lists-function/lambda_event.json GetListsFunction
 
   # SNSPayloadLogger:
