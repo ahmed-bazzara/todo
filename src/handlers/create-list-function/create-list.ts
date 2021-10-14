@@ -8,25 +8,20 @@ AWS.config.update({ region: STOCKHOLM_REGION });
 const TableName = process.env.TABLE_NAME as string;
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-// interface CreateListBody {
-//   id: number;
-//   tickets: DragabbleEntityType[];
-//   containers: DraggableContainer[];
-// }
-
-export const createList = async (payload: any) => {
-  const data = JSON.parse(payload.body);
+export const createList = async (event: any) => {
+  const data = JSON.parse(event.body);
   const params = {
     TableName,
     Item: data
   }
   
   return await dynamodb.put(params).promise().then(() => {
-    const body = {
-      Operation: 'SAVE',
-      Message: 'SUCCESS',
-      Item: data
-    }
+    const body = data
+    // const body = {
+    //   Operation: 'SAVE',
+    //   Message: 'SUCCESS',
+    //   Item: data
+    // }
     console.log('here');
     
     return buildResponse(200, body);

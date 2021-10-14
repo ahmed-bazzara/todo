@@ -41,7 +41,7 @@ Resources:
           TodoAppCognitoAuthorizer:
             UserPoolArn: !GetAtt TodoAppCognitoUserPool.Arn
       Cors:
-        AllowMethods: "'GET,POST,OPTIONS'"
+        AllowMethods: "'GET,POST,DELETE,OPTIONS'"
         AllowHeaders: "'content-type'"
         AllowOrigin: "'*'"
         AllowCredentials: "'*'"
@@ -92,6 +92,24 @@ Resources:
           Properties:
             Path: /getLists
             Method: get
+            RestApiId:
+              Ref: ToDoApi
+
+  RemoveListFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      FunctionName: RemoveListFunction
+      Description: A Lambda function that gets all to-do lists
+      Runtime: nodejs12.x
+      Handler: dist/removeFunction/removeFunction.removeList
+      Timeout: 10
+      Events:
+        RemoveListsEvent:
+          Type: Api
+          Properties:
+            Path: /removeList/{id}
+            Method: delete
             RestApiId:
               Ref: ToDoApi
 

@@ -1,22 +1,7 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
-const AWS = require('aws-sdk');
-
-// const AwsSamPlugin = require('aws-sam-webpack-plugin');
-
-// const awsSamPlugin = new AwsSamPlugin({
-//   projects: {
-//     createList: './src/handlers/create-list-function',
-//     getLists: './src/handlers/get-lists-function',
-//   },
-//   vscodeDebug: true,
-// });
 
 module.exports = {
-  // Loads the entry object from the AWS::Serverless::Function resources in your
-  // SAM config. Setting this to a function will
-  // entry: () => awsSamPlugin.entry(),
-
   entry: {
     createFunction: {
       import: path.resolve(
@@ -32,25 +17,18 @@ module.exports = {
       ),
       filename: 'getFunction/getFunction.js',
     },
+    removeFunction: {
+      import: path.resolve(
+        __dirname,
+        'src/handlers/remove-list-function/remove-list.ts'
+      ),
+      filename: 'removeFunction/removeFunction.js',
+    },
   },
 
   plugins: [
     new CopyPlugin({
       patterns: [
-        // {
-        //   from: path.resolve(
-        //     __dirname,
-        //     'src/handlers/create-list-function/template.yml'
-        //   ),
-        //   to: 'createFunction',
-        // },
-        // {
-        //   from: path.resolve(
-        //     __dirname,
-        //     'src/handlers/get-lists-function/template.yml'
-        //   ),
-        //   to: 'getFunction',
-        // },
         {
           from: path.resolve(__dirname, 'template_prod.yml'),
           to: '.',
@@ -88,7 +66,4 @@ module.exports = {
   module: {
     rules: [{ test: /\.tsx?$/, loader: 'ts-loader' }],
   },
-
-  // Add the AWS SAM Webpack plugin
-  // plugins: [awsSamPlugin],
 };

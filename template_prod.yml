@@ -33,7 +33,7 @@ Resources:
       EndpointConfiguration:
         Type: REGIONAL
       Cors:
-        AllowMethods: "'GET,POST,OPTIONS'"
+        AllowMethods: "'GET,POST,DELETE,OPTIONS'"
         AllowHeaders: "'content-type'"
         AllowOrigin: "'http://todo-client-bucket.s3-website.eu-north-1.amazonaws.com/'"
         AllowCredentials: "'*'"
@@ -86,7 +86,25 @@ Resources:
             Method: get
             RestApiId:
               Ref: ToDoApi
-              
+
+  RemoveListFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      FunctionName: RemoveListFunction
+      Description: A Lambda function that gets all to-do lists
+      Runtime: nodejs12.x
+      Handler: removeFunction/removeFunction.removeList
+      Timeout: 10
+      Events:
+        RemoveListsEvent:
+          Type: Api
+          Properties:
+            Path: /removeList/{id}
+            Method: delete
+            RestApiId:
+              Ref: ToDoApi
+            
   TodoAppCognitoUserPool:
     Type: AWS::Cognito::UserPool
     Properties:

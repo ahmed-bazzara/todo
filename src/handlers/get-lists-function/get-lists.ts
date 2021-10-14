@@ -12,9 +12,7 @@ export const getLists = async () => {
   const allCollections = await scanDynamoRecords(params, []);
   console.log('allCollections', allCollections);
 
-  const body = {
-    collections: allCollections
-  }
+  const body = allCollections
   console.log(buildResponse(200, body));
   console.log('end');
   
