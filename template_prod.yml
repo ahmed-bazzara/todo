@@ -14,6 +14,27 @@ Transform:
 
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
+Parameters:
+  AppName:
+    Type: String
+    Description: Name of app
+  ClientDomains:
+    Type: CommaDelimitedList
+    Description: Array of domains allowerd to use this UserPool
+  AdminEmail:
+    Type: String
+    Description: Email address for administrator
+  AddGroupsToScopes:
+    Type: String
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Default: 'false'
+
+Conditions:
+  ScopeGroups:
+    !Equals [!Ref AddGroupsToScopes, 'true']
+    
 Globals:
   Function:
     Environment:
@@ -108,10 +129,12 @@ Resources:
   TodoAppCognitoUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
-      UserPoolName: TodoAppUserPool
+      UserPoolName: !Sub ${AppName}-UserPool
       Policies:
         PasswordPolicy:
           MinimumLength: 8
+      AutoVerifiedAttributes:
+        - email
       UsernameAttributes:
         - email
       Schema:
@@ -123,29 +146,74 @@ Resources:
     Type: AWS::Cognito::UserPoolClient
     Properties:
       UserPoolId: !Ref TodoAppCognitoUserPool
-      ClientName: TodoAppUserPoolClient
+      ClientName: !Sub ${AppName}-UserPoolClient
       GenerateSecret: false
+      SupportedIdentityProviders:
+        - COGNITO
+      CallbackURLs: !Ref ClientDomains
+      LogoutURLs: !Ref ClientDomains
       AllowedOAuthFlows:
         - code
         - implicit
       AllowedOAuthScopes:
-        - phone
         - email
         - openid
         - profile
-        - aws.cognito.signin.user.admin
-      SupportedIdentityProviders:
-        - COGNITO
-      CallbackURLs:
-        - https://todoappidentitymanager.com/callback
-      LogoutURLs:
-        - https://todoappidentitymanager.com/callback
   
   ToDoCognitoUserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties: 
       Domain: todoauthentication
       UserPoolId: !Ref TodoAppCognitoUserPool
+
+    
+  TodoAppCognitoUserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: !Sub ${AppName}-${AWS::AccountId}
+      UserPoolId: !Ref TodoAppCognitoUserPool
+
+  AdminUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: Admins
+      Description: Admin user group
+      Precedence: 0
+      UserPoolId: !Ref TodoAppCognitoUserPool
+
+  AdminUser:
+    Type: AWS::Cognito::UserPoolUser
+    Properties:
+      Username: !Ref AdminEmail
+      DesiredDeliveryMeduims:
+       - EMAIL
+      ForceAliasCreation: true
+      UserAttribuites:
+       - Name: email
+         Value: !Ref AdminEmail
+      UserPoolId: !Ref TodoAppCognitoUserPool
+    
+  AddUserToGroup:
+    Type: AWS::Cognito::UserPoolUserToGroupAttachment
+    Properties:
+      GroupName: !Ref AdminUserGroup
+      UserName: !Ref AdminUser
+      UserPoolId: !Ref TodoAppCognitoUserPool
+
+Outputs:
+  UserPoolId:
+    Description: "User pool ID"
+    Value: !Ref TodoAppCognitoUserPool
+    Export:
+      Name: !Sub ${AppName}:UserPoolId
+
+  UserPoolClientId:
+    Description: "Application client ID"
+    Value: !Ref TodoAppCognitoUserPoolClient
+
+  AuthUrl:
+    Description: "URL user for authentication"
+    Value: !Sub https://${TodoAppCognitoUserPoolDomain}.auth.${AWS::Region}.amazincognito.com
   # local test sam local invoke -e ./src/handlers/get-lists-function/lambda_event.json GetListsFunction
 
   # SNSPayloadLogger:
