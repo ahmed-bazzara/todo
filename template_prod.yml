@@ -129,7 +129,8 @@ Resources:
   TodoAppCognitoUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
-      UserPoolName: !Sub ${AppName}-UserPool
+      UserPoolName: ToDo-UserPool
+      # UserPoolName: !Sub ${AppName}-UserPool
       Policies:
         PasswordPolicy:
           MinimumLength: 8
@@ -146,7 +147,8 @@ Resources:
     Type: AWS::Cognito::UserPoolClient
     Properties:
       UserPoolId: !Ref TodoAppCognitoUserPool
-      ClientName: !Sub ${AppName}-UserPoolClient
+      ClientName: ToDo-UserPoolClient
+      # ClientName: !Sub ${AppName}-UserPoolClient
       GenerateSecret: false
       SupportedIdentityProviders:
         - COGNITO
@@ -170,7 +172,8 @@ Resources:
   TodoAppCognitoUserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
-      Domain: !Sub ${AppName}-${AWS::AccountId}
+      Domain: !Sub todoapp-${AWS::AccountId}
+      # Domain: !Sub ${AppName}-${AWS::AccountId}
       UserPoolId: !Ref TodoAppCognitoUserPool
 
   AdminUserGroup:
@@ -185,7 +188,7 @@ Resources:
     Type: AWS::Cognito::UserPoolUser
     Properties:
       Username: !Ref AdminEmail
-      DesiredDeliveryMeduims:
+      DesiredDeliveryMediums:
        - EMAIL
       ForceAliasCreation: true
       UserAttribuites:
@@ -205,7 +208,8 @@ Outputs:
     Description: "User pool ID"
     Value: !Ref TodoAppCognitoUserPool
     Export:
-      Name: !Sub ${AppName}:UserPoolId
+      Name: TodoApp:UserPoolId
+      # Name: !Sub ${AppName}:UserPoolId
 
   UserPoolClientId:
     Description: "Application client ID"
