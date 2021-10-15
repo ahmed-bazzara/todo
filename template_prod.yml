@@ -168,19 +168,19 @@ Resources:
         - openid
         - profile
   
-  ToDoCognitoUserPoolDomain:
-    Type: AWS::Cognito::UserPoolDomain
-    Properties: 
-      Domain: todoauthentication
-      UserPoolId: !Ref TodoAppCognitoUserPool
+  # ToDoCognitoUserPoolDomain:
+  #   Type: AWS::Cognito::UserPoolDomain
+  #   Properties: 
+  #     Domain: todoauthentication
+  #     UserPoolId: !Ref TodoAppCognitoUserPool
 
     
-  # TodoAppCognitoUserPoolDomain:
-  #   Type: AWS::Cognito::UserPoolDomain
-  #   Properties:
-  #     Domain: !Sub todoapp-${AWS::AccountId}
-  #     # Domain: !Sub ${AppName}-${AWS::AccountId}
-  #     UserPoolId: !Ref TodoAppCognitoUserPool
+  TodoAppCognitoUserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: !Sub todoapp-${AWS::AccountId}
+      # Domain: !Sub ${AppName}-${AWS::AccountId}
+      UserPoolId: !Ref TodoAppCognitoUserPool
 
   AdminUserGroup:
     Type: AWS::Cognito::UserPoolGroup
