@@ -20,26 +20,26 @@ Globals:
       Variables:
         TABLE_NAME: ToDoTable
 
-Parameters:
-  AppName:
-    Type: String
-    Description: Name of app
-  ClientDomains:
-    Type: CommaDelimitedList
-    Description: Array of domains allowerd to use this UserPool
-  AdminEmail:
-    Type: String
-    Description: Email address for administrator
-  AddGroupsToScopes:
-    Type: String
-    AllowedValues:
-      - 'true'
-      - 'false'
-    Default: 'false'
+# Parameters:
+#   AppName:
+#     Type: String
+#     Description: Name of app
+#   ClientDomains:
+#     Type: CommaDelimitedList
+#     Description: Array of domains allowerd to use this UserPool
+#   AdminEmail:
+#     Type: String
+#     Description: Email address for administrator
+#   AddGroupsToScopes:
+#     Type: String
+#     AllowedValues:
+#       - 'true'
+#       - 'false'
+#     Default: 'false'
 
-Conditions:
-  ScopeGroups:
-    !Equals [!Ref AddGroupsToScopes, 'true']
+# Conditions:
+#   ScopeGroups:
+#     !Equals [!Ref AddGroupsToScopes, 'true']
 
 Resources:
   # This is an SNS Topic with all default configuration properties. To learn more about the available options, see
@@ -160,8 +160,14 @@ Resources:
       GenerateSecret: false
       SupportedIdentityProviders:
         - COGNITO
-      CallbackURLs: !Ref ClientDomains
-      LogoutURLs: !Ref ClientDomains
+      CallbackURLs:
+        - http://localhost:3001
+        - http://todo-client-bucket.s3-website.eu-north-1.amazonaws.com
+      LogoutURLs:
+        - http://localhost:3001
+        - http://todo-client-bucket.s3-website.eu-north-1.amazonaws.com
+      # CallbackURLs: !Ref ClientDomains
+      # LogoutURLs: !Ref ClientDomains
       AllowedOAuthFlowsUserPoolClient: true
       AllowedOAuthFlows:
         - code
@@ -189,14 +195,14 @@ Resources:
   AdminUser:
     Type: AWS::Cognito::UserPoolUser
     Properties:
-      Username: !Ref AdminEmail
+      Username: ahmed.bazzara@tretton37.com
       DesiredDeliveryMediums:
        - EMAIL
       ForceAliasCreation: true
       UserAttribuites:
        - Name: email
-         Value: !Ref AdminEmail
-      UserPoolId: !Ref TodoAppUserPool
+         Value: ahmed.bazzara@tretton37.com
+      UserPoolId: !Ref TodoAppCognitoUserPool
     
   AddUserToGroup:
     Type: AWS::Cognito::UserPoolUserToGroupAttachment
