@@ -176,7 +176,9 @@ Resources:
         - email
         - openid
         - profile
-  
+      ExplicitAuthFlows:
+        - ALLOW_USER_PASSWORD_AUTH
+
   TodoAppCognitoUserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
@@ -208,7 +210,7 @@ Resources:
     Type: AWS::Cognito::UserPoolUserToGroupAttachment
     Properties:
       GroupName: !Ref AdminUserGroup
-      UserName: !Ref AdminUser
+      Username: !Ref AdminUser
       UserPoolId: !Ref TodoAppUserPool
 
 Outputs:

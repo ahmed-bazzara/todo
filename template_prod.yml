@@ -168,7 +168,8 @@ Resources:
         - email
         - openid
         - profile
-  
+      ExplicitAuthFlows:
+        - ALLOW_USER_PASSWORD_AUTH
   # ToDoCognitoUserPoolDomain:
   #   Type: AWS::Cognito::UserPoolDomain
   #   Properties: 
