@@ -197,7 +197,7 @@ Resources:
       DesiredDeliveryMediums:
        - EMAIL
       ForceAliasCreation: true
-      UserAttribuites:
+      UserAttributes:
        - Name: email
          Value: ahmed.bazzara@tretton37.com
       UserPoolId: !Ref TodoAppCognitoUserPool
