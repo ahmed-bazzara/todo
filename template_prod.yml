@@ -51,6 +51,7 @@ Resources:
     Properties:
       DistributionConfig:
         DefaultCacheBehavior:
+          TargetOriginId: ToDoClientS3Bucket
           ViewerProtocolPolicy: redirect-to-https
         Enabled: true
         Origins:
