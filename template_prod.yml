@@ -54,10 +54,10 @@ Resources:
           ViewerProtocolPolicy: redirect-to-https
         Enabled: true
         Origins:
-          DomainName: "todo-client-bucket.s3.eu-north-1.amazonaws.com"
-          Id: ToDoClientS3Bucket
           - CustomOriginConfig:
              OriginProtocolPolicy: match-viewer
+          DomainName: "todo-client-bucket.s3.eu-north-1.amazonaws.com"
+          Id: ToDoClientS3Bucket
 
   ToDoApi:
     Type: AWS::Serverless::Api
