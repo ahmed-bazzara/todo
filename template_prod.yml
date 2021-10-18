@@ -51,14 +51,15 @@ Resources:
     Properties:
       DistributionConfig:
         DefaultCacheBehavior:
-          TargetOriginId: ToDoClientS3Bucket
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+          TargetOriginId: origin1
           ViewerProtocolPolicy: redirect-to-https
         Enabled: true
         Origins:
           - CustomOriginConfig:
               OriginProtocolPolicy: match-viewer
             DomainName: "todo-client-bucket.s3.eu-north-1.amazonaws.com"
-            Id: ToDoClientS3Bucket
+            Id: origin1
 
   ToDoApi:
     Type: AWS::Serverless::Api
@@ -168,11 +169,11 @@ Resources:
       SupportedIdentityProviders:
         - COGNITO
       CallbackURLs:
-        # - http://localhost:3001
-        - "*.todo-client-bucket.s3-website.eu-north-1.amazonaws.com"
+        - http://localhost:3001
+        # - "*.todo-client-bucket.s3-website.eu-north-1.amazonaws.com"
       LogoutURLs:
-        # - http://localhost:3001
-        - "*.todo-client-bucket.s3-website.eu-north-1.amazonaws.com"
+        - http://localhost:3001
+        # - "*.todo-client-bucket.s3-website.eu-north-1.amazonaws.com"
       # CallbackURLs: !Ref ClientDomains
       # LogoutURLs: !Ref ClientDomains
       AllowedOAuthFlows:
