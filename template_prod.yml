@@ -55,9 +55,9 @@ Resources:
         Enabled: true
         Origins:
           - CustomOriginConfig:
-             OriginProtocolPolicy: match-viewer
-          DomainName: "todo-client-bucket.s3.eu-north-1.amazonaws.com"
-          Id: ToDoClientS3Bucket
+              OriginProtocolPolicy: match-viewer
+            DomainName: "todo-client-bucket.s3.eu-north-1.amazonaws.com"
+            Id: ToDoClientS3Bucket
 
   ToDoApi:
     Type: AWS::Serverless::Api
