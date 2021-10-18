@@ -30,6 +30,6 @@
         "watch": "NODE_ENV=development webpack-cli -w",
         "launch:local:network": "docker network create lambda-local",
         "launch:local:docker": "docker run -d -v '$PWD':/dynamodb_local_db -p 8000:8000 --network lambda-local --name dynamodb cnadiminti/dynamodb-local",
-        "launch:local:api": "sam local start-api --template-file template.docker-network lambda-local --skip-pull-image"
+        "launch:local:api": "sam local start-api --template-file template.yml --docker-network lambda-local --skip-pull-image"
     }
 }

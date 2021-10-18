@@ -51,11 +51,6 @@ Resources:
     Properties:
       Name: ToDoApi
       StageName: dev
-      # Auth:
-      #   DefaultAuthorizer: MyLambdaTokenAuthorizer
-      #   Authorizers:
-      #     MyLambdaTokenAuthorizer:
-      #       FunctionArn: !GetAtt MyAuthFunction.Arn
       Auth:
         DefaultAuthorizer: TodoAppCognitoAuthorizer
         Authorizers:
@@ -63,9 +58,9 @@ Resources:
             UserPoolArn: !GetAtt TodoAppCognitoUserPool.Arn
       Cors:
         AllowMethods: "'GET,POST,DELETE,OPTIONS'"
-        AllowHeaders: "'content-type'"
-        AllowOrigin: "'*'"
-        AllowCredentials: "'*'"
+        AllowHeaders: "'Content-Type, Authorization'"
+        AllowOrigin: "'http://localhost:3001'"
+        AllowCredentials: true
       EndpointConfiguration:
         Type: REGIONAL
 
@@ -86,7 +81,7 @@ Resources:
       Description: A Lambda function that creates a to-do list
       Runtime: nodejs12.x
       Handler: dist/createFunction/createFunction.createList
-      Timeout: 10
+      Timeout: 5
       Events:
         CreateListEvent:
           Type: Api
@@ -106,7 +101,7 @@ Resources:
       Description: A Lambda function that gets all to-do lists
       Runtime: nodejs12.x
       Handler: dist/getFunction/getFunction.getLists
-      Timeout: 10
+      Timeout: 5
       Events:
         GetListsEvent:
           Type: Api
@@ -124,7 +119,7 @@ Resources:
       Description: A Lambda function that gets all to-do lists
       Runtime: nodejs12.x
       Handler: dist/removeFunction/removeFunction.removeList
-      Timeout: 10
+      Timeout: 5
       Events:
         RemoveListsEvent:
           Type: Api

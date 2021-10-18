@@ -48,7 +48,8 @@ module.exports = {
 
   // Resolve .ts and .js extensions
   resolve: {
-    extensions: ['.ts', '.js'],
+    extensions: ['.tsx', '.ts', '.js', '.json', '.png', '.gif', '.jpg', '.svg'],
+    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
   },
 
   // Target node
