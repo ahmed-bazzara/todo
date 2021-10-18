@@ -49,15 +49,15 @@ Resources:
   TodoCloudFrontHosting:
     Type: AWS::CloudFront::Distribution
     Properties:
-      DefaultCacheBehavior:
-        ViewerProtocolPolicy: redirect-to-https
       DistributionConfig:
+        DefaultCacheBehavior:
+          ViewerProtocolPolicy: redirect-to-https
         Enabled: true
-      Origin:
-        - CustomOriginConfig:
-          - OriginProtocolPolicy: https-only
-        - DomainName: "todo-client-bucket.s3.eu-north-1.amazonaws.com"
-        - Id: ToDoClientS3Bucket
+        Origins:
+          - CustomOriginConfig:
+            - OriginProtocolPolicy: match-viewer
+          - DomainName: "todo-client-bucket.s3.eu-north-1.amazonaws.com"
+          - Id: ToDoClientS3Bucket
 
   ToDoApi:
     Type: AWS::Serverless::Api
