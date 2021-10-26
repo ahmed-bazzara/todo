@@ -46,20 +46,20 @@ Resources:
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html
   # SimpleTopic:
   #   Type: AWS::SNS::Topic
-  TodoCloudFrontHosting:
-    Type: AWS::CloudFront::Distribution
-    Properties:
-      DistributionConfig:
-        DefaultCacheBehavior:
-          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
-          TargetOriginId: origin1
-          ViewerProtocolPolicy: redirect-to-https
-        Enabled: true
-        Origins:
-          - CustomOriginConfig:
-              OriginProtocolPolicy: match-viewer
-            DomainName: "todo-client-bucket.s3.eu-north-1.amazonaws.com"
-            Id: origin1
+  # TodoCloudFrontHosting:
+  #   Type: AWS::CloudFront::Distribution
+  #   Properties:
+  #     DistributionConfig:
+  #       DefaultCacheBehavior:
+  #         CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+  #         TargetOriginId: origin1
+  #         ViewerProtocolPolicy: redirect-to-https
+  #       Enabled: true
+  #       Origins:
+  #         - CustomOriginConfig:
+  #             OriginProtocolPolicy: match-viewer
+  #           DomainName: "todo-client-bucket.s3.eu-north-1.amazonaws.com"
+  #           Id: origin1
 
   ToDoApi:
     Type: AWS::Serverless::Api
@@ -74,7 +74,7 @@ Resources:
       Cors:
         AllowMethods: "'GET,POST,DELETE,OPTIONS'"
         AllowHeaders: "'Content-Type, Authorization'"
-        AllowOrigin: "'http://localhost:3001'"
+        AllowOrigin: "'https://www.letsdo-list.com'"
         # AllowOrigin: "'http://todo-client-bucket.s3-website.eu-north-1.amazonaws.com'"
         AllowCredentials: true
       EndpointConfiguration:
