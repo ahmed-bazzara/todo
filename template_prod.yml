@@ -75,7 +75,6 @@ Resources:
         AllowMethods: "'GET,POST,DELETE,OPTIONS'"
         AllowHeaders: "'Content-Type, Authorization'"
         AllowOrigin: "'https://www.letsdo-list.com'"
-        # AllowOrigin: "'http://todo-client-bucket.s3-website.eu-north-1.amazonaws.com'"
         AllowCredentials: true
       EndpointConfiguration:
         Type: REGIONAL
@@ -170,11 +169,9 @@ Resources:
       SupportedIdentityProviders:
         - COGNITO
       CallbackURLs:
-        - http://localhost:3001
-        # - "*.todo-client-bucket.s3-website.eu-north-1.amazonaws.com"
+        - https://www.letsdo-list.com
       LogoutURLs:
-        - http://localhost:3001
-        # - "*.todo-client-bucket.s3-website.eu-north-1.amazonaws.com"
+        - https://www.letsdo-list.com
       # CallbackURLs: !Ref ClientDomains
       # LogoutURLs: !Ref ClientDomains
       AllowedOAuthFlows:

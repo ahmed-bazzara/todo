@@ -157,10 +157,8 @@ Resources:
         - COGNITO
       CallbackURLs:
         - http://localhost:3001
-        - http://todo-client-bucket.s3-website.eu-north-1.amazonaws.com
       LogoutURLs:
         - http://localhost:3001
-        - http://todo-client-bucket.s3-website.eu-north-1.amazonaws.com
       # CallbackURLs: !Ref ClientDomains
       # LogoutURLs: !Ref ClientDomains
       AllowedOAuthFlowsUserPoolClient: true
