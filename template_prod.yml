@@ -169,9 +169,9 @@ Resources:
       SupportedIdentityProviders:
         - COGNITO
       CallbackURLs:
-        - https://www.letsdo-list.com
+        - https://www.letsdo-list.com/
       LogoutURLs:
-        - https://www.letsdo-list.com
+        - https://www.letsdo-list.com/
       # CallbackURLs: !Ref ClientDomains
       # LogoutURLs: !Ref ClientDomains
       AllowedOAuthFlows:
