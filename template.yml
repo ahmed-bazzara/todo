@@ -88,6 +88,7 @@ Resources:
           Properties:
             Path: /createList
             Method: post
+            cors: true
             RestApiId:
               Ref: ToDoApi
       Policies:
@@ -108,6 +109,7 @@ Resources:
           Properties:
             Path: /getLists
             Method: get
+            cors: true
             RestApiId:
               Ref: ToDoApi
 
@@ -126,6 +128,7 @@ Resources:
           Properties:
             Path: /removeList/{id}
             Method: delete
+            cors: true
             RestApiId:
               Ref: ToDoApi
 
