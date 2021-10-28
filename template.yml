@@ -88,7 +88,11 @@ Resources:
           Properties:
             Path: /createList
             Method: post
-            cors: true
+            cors:
+              origin: 'http://localhost:3001'
+              headers:
+                - Content-Type
+                - Authorization
             RestApiId:
               Ref: ToDoApi
       Policies:
@@ -109,7 +113,11 @@ Resources:
           Properties:
             Path: /getLists
             Method: get
-            cors: true
+            cors:
+              origin: 'http://localhost:3001'
+              headers:
+                - Content-Type
+                - Authorization
             RestApiId:
               Ref: ToDoApi
 
@@ -128,7 +136,11 @@ Resources:
           Properties:
             Path: /removeList/{id}
             Method: delete
-            cors: true
+            cors:
+              origin: 'http://localhost:3001'
+              headers:
+                - Content-Type
+                - Authorization
             RestApiId:
               Ref: ToDoApi
 
