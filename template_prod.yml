@@ -79,6 +79,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: .
+      AutoPublishAlias: !Ref AutoPublishAliasName
       FunctionName: TasksFunction
       Description: A Lambda function that connects to a gateway API for to-do list
       Runtime: nodejs12.x
@@ -169,7 +170,7 @@ Resources:
               produces:
                 - application/json
               x-amazon-apigateway-integration:
-                uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ExampleFunction.Arn}:${AutoPublishAliasName}/invocations"
+                uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksFunction.Arn}:${AutoPublishAliasName}/invocations"
                 passthroughBehavior: when_no_match
                 httpMethod: POST
                 type: aws_proxy
