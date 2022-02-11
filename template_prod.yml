@@ -165,20 +165,28 @@ Resources:
         schemes:
           - "https"
         paths:
-          options:
-            x-amazon-apigateway-any-method:
-              produces:
-                - application/json
-              responses:
-                '200':
-                  description: 200 response
-                  headers:
-                    Access-Control-Allow-Origin:
-                      type: string
-                    Access-Control-Allow-Methods:
-                      type: string
-                    Access-Control-Allow-Headers:
-                      type: string
+          # options:
+          #   x-amazon-apigateway-any-method:
+          #     produces:
+          #       - application/json
+          #     responses:
+          #       '200':
+          #         description: 200 response
+          #         headers:
+          #           Access-Control-Allow-Origin:
+          #             type: string
+          #           Access-Control-Allow-Methods:
+          #             type: string
+          #           Access-Control-Allow-Headers:
+          #             type: string
+          /getLists:
+            get:
+              response: {}
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                passthroughBehavior: when_no_match
+                type: aws_proxy
+                uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksFunction.Arn}:${AutoPublishAliasName}/invocations"
           /:
             x-amazon-apigateway-any-method:
               produces:
@@ -193,11 +201,11 @@ Resources:
         Authorizers:
           TodoAppCognitoAuthorizer:
             UserPoolArn: !GetAtt TodoAppCognitoUserPool.Arn
-      Cors:
-        AllowCredentials: true
-        AllowHeaders: "'Content-Type, Authorization, Origin'"
-        AllowMethods: "'GET,POST,DELETE,OPTIONS'"
-        AllowOrigin: "'www.letsdo-list.com'"
+      # Cors:
+      #   AllowCredentials: true
+      #   AllowHeaders: "'Content-Type, Authorization, Origin'"
+      #   AllowMethods: "'GET,POST,DELETE,OPTIONS'"
+      #   AllowOrigin: "'www.letsdo-list.com'"
       EndpointConfiguration:
         Type: REGIONAL
 
