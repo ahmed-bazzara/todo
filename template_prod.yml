@@ -166,8 +166,6 @@ Resources:
           - "https"
         paths:
           options:
-            consumes:
-              - application/json
             produces:
               - application/json
             responses:
