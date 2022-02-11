@@ -167,19 +167,19 @@ Resources:
         paths:
           options:
             consumes:
-              - "application/json"
+              - application/json
             produces:
-              - "application/json"
+              - application/json
             responses:
               '200':
-                description: "200 response"
+                description: 200 response
                 headers:
                   Access-Control-Allow-Origin:
-                    type: "string"
+                    type: string
                   Access-Control-Allow-Methods:
-                    type: "string"
+                    type: string
                   Access-Control-Allow-Headers:
-                    type: "string"
+                    type: string
           /:
             x-amazon-apigateway-any-method:
               produces:
