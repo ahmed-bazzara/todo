@@ -166,18 +166,19 @@ Resources:
           - "https"
         paths:
           options:
-            produces:
-              - application/json
-            responses:
-              '200':
-                description: 200 response
-                headers:
-                  Access-Control-Allow-Origin:
-                    type: string
-                  Access-Control-Allow-Methods:
-                    type: string
-                  Access-Control-Allow-Headers:
-                    type: string
+            x-amazon-apigateway-any-method:
+              produces:
+                - application/json
+              responses:
+                '200':
+                  description: 200 response
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: string
+                    Access-Control-Allow-Methods:
+                      type: string
+                    Access-Control-Allow-Headers:
+                      type: string
           /:
             x-amazon-apigateway-any-method:
               produces:
