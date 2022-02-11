@@ -8,6 +8,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: |
+            **/node_modules
+            **/.eslintcache
+            ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
       - uses: actions/setup-python@v2
       - uses: aws-actions/setup-sam@v1
       - uses: aws-actions/configure-aws-credentials@v1
@@ -15,7 +26,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-north-1
-      - run: yarn
+      - run: yarn install --frozen-lockfile
       - run: yarn run webpack
       - run: sam build --use-container --template-file template_prod.yml
       # - run: sam build --use-container --parameter-overrides AppName=TodoApp,ClientDomains=http://localhost:3001,http://todo-client-bucket.s3-website.eu-north-1.amazonaws.com,AdminEmail=ahmed.bazzara@tretton37.com,AddGroupsToScopes=false --template-file dist/template_prod.yml
