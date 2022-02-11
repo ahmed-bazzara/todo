@@ -102,11 +102,6 @@ Resources:
           Properties:
             Path: /createList
             Method: post
-            cors:
-              origin: 'https://www.letsdo-list.com'
-              headers:
-                - Content-Type
-                - Authorization
             RestApiId:
               Ref: ToDoApi
       Policies:
@@ -126,11 +121,6 @@ Resources:
           Properties:
             Path: /getLists
             Method: get
-            cors:
-              origin: 'https://www.letsdo-list.com'
-              headers:
-                - Content-Type
-                - Authorization
             RestApiId:
               Ref: ToDoApi
 
@@ -149,11 +139,6 @@ Resources:
           Properties:
             Path: /removeList/{id}
             Method: delete
-            cors:
-              origin: 'https://www.letsdo-list.com'
-              headers:
-                - Content-Type
-                - Authorization
             RestApiId:
               Ref: ToDoApi
             
