@@ -6,24 +6,31 @@ module.exports = {
     createFunction: {
       import: path.resolve(
         __dirname,
-        'src/handlers/create-list-function/create-list.ts'
+        'src/handlers/tasksHandler.ts'
       ),
-      filename: 'createFunction/createFunction.js',
-    },
-    getFunction: {
-      import: path.resolve(
-        __dirname,
-        'src/handlers/get-lists-function/get-lists.ts'
-      ),
-      filename: 'getFunction/getFunction.js',
-    },
-    removeFunction: {
-      import: path.resolve(
-        __dirname,
-        'src/handlers/remove-list-function/remove-list.ts'
-      ),
-      filename: 'removeFunction/removeFunction.js',
-    },
+      filename: 'tasksHandler.js',
+    }
+    // createFunction: {
+    //   import: path.resolve(
+    //     __dirname,
+    //     'src/handlers/create-list-function/create-list.ts'
+    //   ),
+    //   filename: 'createFunction/createFunction.js',
+    // },
+    // getFunction: {
+    //   import: path.resolve(
+    //     __dirname,
+    //     'src/handlers/get-lists-function/get-lists.ts'
+    //   ),
+    //   filename: 'getFunction/getFunction.js',
+    // },
+    // removeFunction: {
+    //   import: path.resolve(
+    //     __dirname,
+    //     'src/handlers/remove-list-function/remove-list.ts'
+    //   ),
+    //   filename: 'removeFunction/removeFunction.js',
+    // },
   },
 
   plugins: [

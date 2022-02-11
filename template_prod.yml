@@ -10,10 +10,15 @@ Description: >-
 # Transform section specifies one or more macros that AWS CloudFormation uses to process your template
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-section-structure.html
 Transform:
-- AWS::Serverless-2016-10-31
+  - AWS::Serverless-2016-10-31
 
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
+Parameters:
+  AutoPublishAliasName:
+    Type: String
+    Default: current
+    Description: The alias used for Auto Publishing
 # Parameters:
 #   AppName:
 #     Type: String
@@ -34,7 +39,7 @@ Transform:
 # Conditions:
 #   ScopeGroups:
 #     !Equals [!Ref AddGroupsToScopes, 'true']
-    
+
 Globals:
   Function:
     Environment:
@@ -60,12 +65,114 @@ Resources:
   #             OriginProtocolPolicy: match-viewer
   #           DomainName: "todo-client-bucket.s3.eu-north-1.amazonaws.com"
   #           Id: origin1
+  ToDoTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: Number
+      TableName: ToDoTable
+  # This is the Lambda function definition associated with the source code: sns-payload-logger.js. For all available properties, see
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
 
+  TasksFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      FunctionName: TasksFunction
+      Description: A Lambda function that connects to a gateway API for to-do list
+      Runtime: nodejs12.x
+      Handler: tasksHandler.handler
+      Role: !GetAtt ExampleFunctionIAMRole.Arn
+      Events:
+        CreateListEvent:
+          Type: Api
+          Properties:
+            Path: /createList
+            Method: post
+            RestApiId:
+              Ref: ToDoApi
+        GetListsEvent:
+          Type: Api
+          Properties:
+            Path: /getLists
+            Method: get
+            RestApiId:
+              Ref: ToDoApi
+        RemoveListsEvent:
+          Type: Api
+          Properties:
+            Path: /removeList/{id}
+            Method: delete
+            RestApiId:
+              Ref: ToDoApi
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ToDoTable
+
+  APILambdaPermission:
+    DependsOn : TasksFunction
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      Action: lambda:InvokeFunction
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ToDoApi}/*"
+      FunctionName:
+        !Sub
+        - ${FuncArn}:current
+        - { FuncArn: !GetAtt TasksFunction.Arn }
+      Principal: apigateway.amazonaws.com
+
+  ExampleFunctionIAMRole:
+   Type: "AWS::IAM::Role"
+   Properties:
+     Path: "/"
+     ManagedPolicyArns:
+         - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     AssumeRolePolicyDocument:
+       Version: "2012-10-17"
+       Statement:
+         -
+           Effect: "Allow"
+           Action:
+             - "sts:AssumeRole"
+           Principal:
+             Service:
+               - "lambda.amazonaws.com"
+     Policies: # Inline Policies
+       -
+         PolicyName: "CW-Logs"
+         PolicyDocument:
+           Version: "2012-10-17"
+           Statement:
+             -
+               Effect: "Allow"
+               Action:
+                 - "logs:*"
+               Resource: "*"
+    
   ToDoApi:
     Type: AWS::Serverless::Api
     Properties:
       Name: ToDoApi
       StageName: dev
+      DefinitionBody:
+        swagger: 2.0
+        info:
+          version: "1.0"
+          title: "A nice title"
+        basePath: /dev
+        schemes:
+          - "https"
+        paths:
+          /:
+            x-amazon-apigateway-any-method:
+              produces:
+                - application/json
+              x-amazon-apigateway-integration:
+                uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ExampleFunction.Arn}:${AutoPublishAliasName}/invocations"
+                passthroughBehavior: when_no_match
+                httpMethod: POST
+                type: aws_proxy
       Auth:
         DefaultAuthorizer: TodoAppCognitoAuthorizer
         Authorizers:
@@ -79,69 +186,59 @@ Resources:
       EndpointConfiguration:
         Type: REGIONAL
 
-  ToDoTable:
-    Type: AWS::Serverless::SimpleTable
-    Properties:
-      PrimaryKey:
-        Name: id
-        Type: Number
-      TableName: ToDoTable
-  # This is the Lambda function definition associated with the source code: sns-payload-logger.js. For all available properties, see
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-  CreateListFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: .
-      FunctionName: CreateListFunction
-      Description: A Lambda function that creates a to-do list
-      Runtime: nodejs12.x
-      Handler: createFunction/createFunction.createList
-      Events:
-        CreateListEvent:
-          Type: Api
-          Properties:
-            Path: /createList
-            Method: post
-            RestApiId:
-              Ref: ToDoApi
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref ToDoTable
-  GetListsFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: .
-      FunctionName: GetListsFunction
-      Description: A Lambda function that gets all to-do lists
-      Runtime: nodejs12.x
-      Handler: getFunction/getFunction.getLists
-      Events:
-        GetListsEvent:
-          Type: Api
-          Properties:
-            Path: /getLists
-            Method: get
-            RestApiId:
-              Ref: ToDoApi
+  # CreateListFunction:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     CodeUri: .
+  #     FunctionName: CreateListFunction
+  #     Description: A Lambda function that creates a to-do list
+  #     Runtime: nodejs12.x
+  #     Handler: createFunction/createFunction.createList
+  #     Events:
+  #       CreateListEvent:
+  #         Type: Api
+  #         Properties:
+  #           Path: /createList
+  #           Method: post
+  #           RestApiId:
+  #             Ref: ToDoApi
+  #     Policies:
+  #       - DynamoDBCrudPolicy:
+  #           TableName: !Ref ToDoTable
+  # GetListsFunction:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     CodeUri: .
+  #     FunctionName: GetListsFunction
+  #     Description: A Lambda function that gets all to-do lists
+  #     Runtime: nodejs12.x
+  #     Handler: getFunction/getFunction.getLists
+  #     Events:
+  #       GetListsEvent:
+  #         Type: Api
+  #         Properties:
+  #           Path: /getLists
+  #           Method: get
+  #           RestApiId:
+  #             Ref: ToDoApi
 
-  RemoveListFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: .
-      FunctionName: RemoveListFunction
-      Description: A Lambda function that gets all to-do lists
-      Runtime: nodejs12.x
-      Handler: removeFunction/removeFunction.removeList
-      Timeout: 5
-      Events:
-        RemoveListsEvent:
-          Type: Api
-          Properties:
-            Path: /removeList/{id}
-            Method: delete
-            RestApiId:
-              Ref: ToDoApi
-            
+  # RemoveListFunction:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     CodeUri: .
+  #     FunctionName: RemoveListFunction
+  #     Description: A Lambda function that gets all to-do lists
+  #     Runtime: nodejs12.x
+  #     Handler: removeFunction/removeFunction.removeList
+  #     Timeout: 5
+  #     Events:
+  #       RemoveListsEvent:
+  #         Type: Api
+  #         Properties:
+  #           Path: /removeList/{id}
+  #           Method: delete
+  #           RestApiId:
+  #             Ref: ToDoApi
   TodoAppCognitoUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
@@ -158,7 +255,7 @@ Resources:
         - AttributeDataType: String
           Name: email
           Required: false
-  
+
   TodoAppCognitoUserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
@@ -188,11 +285,10 @@ Resources:
 
   # ToDoCognitoUserPoolDomain:
   #   Type: AWS::Cognito::UserPoolDomain
-  #   Properties: 
+  #   Properties:
   #     Domain: todoauthentication
   #     UserPoolId: !Ref TodoAppCognitoUserPool
 
-    
   TodoAppCognitoUserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
@@ -213,13 +309,13 @@ Resources:
     Properties:
       Username: ahmed.bazzara@tretton37.com
       DesiredDeliveryMediums:
-       - EMAIL
+        - EMAIL
       ForceAliasCreation: true
       UserAttributes:
-       - Name: email
-         Value: ahmed.bazzara@tretton37.com
+        - Name: email
+          Value: ahmed.bazzara@tretton37.com
       UserPoolId: !Ref TodoAppCognitoUserPool
-    
+
   AddUserToGroup:
     Type: AWS::Cognito::UserPoolUserToGroupAttachment
     Properties:
