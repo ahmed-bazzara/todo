@@ -72,10 +72,10 @@ Resources:
           TodoAppCognitoAuthorizer:
             UserPoolArn: !GetAtt TodoAppCognitoUserPool.Arn
       Cors:
-        AllowMethods: "'GET,POST,DELETE,OPTIONS'"
-        AllowHeaders: "'Content-Type, Authorization, Origin'"
-        AllowOrigin: "'https://www.letsdo-list.com'"
         AllowCredentials: true
+        AllowHeaders: "'Content-Type, Authorization, Origin'"
+        AllowMethods: "'GET,POST,DELETE,OPTIONS'"
+        AllowOrigin: "'www.letsdo-list.com'"
       EndpointConfiguration:
         Type: REGIONAL
 
