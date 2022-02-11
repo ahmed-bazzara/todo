@@ -139,6 +139,19 @@ Resources:
            Principal:
              Service:
                - "lambda.amazonaws.com"
+         -
+           Effect: "Allow"
+           Action:
+             - "dynamodb:BatchGetItem"
+             - "dynamodb:GetItem"
+             - "dynamodb:Query"
+             - "dynamodb:Scan"
+             - "dynamodb:BatchWriteItem"
+             - "dynamodb:PutItem"
+             - "dynamodb:UpdateItem"
+           Principal:
+             Service:
+               - "dynamodb.amazonaws.com"
      Policies: # Inline Policies
        -
          PolicyName: "CW-Logs"
