@@ -265,7 +265,7 @@ Resources:
         AllowCredentials: true
         AllowHeaders: "'Content-Type, Authorization, Origin'"
         AllowMethods: "'GET,POST,DELETE,OPTIONS'"
-        AllowOrigin: "'https://www.letsdo-list.com'"
+        AllowOrigin: "'https://www.letsdo-list.com/'"
       EndpointConfiguration:
         Type: REGIONAL
 
