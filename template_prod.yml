@@ -296,6 +296,8 @@ Resources:
     Type: AWS::Cognito::UserPool
     Properties:
       UserPoolName: ToDo-UserPool
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: true
       # UserPoolName: !Sub ${AppName}-UserPool
       Policies:
         PasswordPolicy:
@@ -368,12 +370,31 @@ Resources:
         - Name: email
           Value: ahmed.bazzara@tretton37.com
       UserPoolId: !Ref TodoAppCognitoUserPool
+  
+  SecondAdminUser:
+    Type: AWS::Cognito::UserPoolUser
+    Properties:
+      Username: shadi21985@gmail.com
+      DesiredDeliveryMediums:
+        - EMAIL
+      ForceAliasCreation: true
+      UserAttributes:
+        - Name: email
+          Value: shadi21985@gmail.com
+      UserPoolId: !Ref TodoAppCognitoUserPool
 
   AddUserToGroup:
     Type: AWS::Cognito::UserPoolUserToGroupAttachment
     Properties:
       GroupName: !Ref AdminUserGroup
       Username: !Ref AdminUser
+      UserPoolId: !Ref TodoAppCognitoUserPool
+
+  AddUserToGroup:
+    Type: AWS::Cognito::UserPoolUserToGroupAttachment
+    Properties:
+      GroupName: !Ref AdminUserGroup
+      Username: !Ref SecondAdminUser
       UserPoolId: !Ref TodoAppCognitoUserPool
 
 Outputs:
