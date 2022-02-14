@@ -194,14 +194,14 @@ Resources:
     Properties:
       Name: ToDoApi
       StageName: dev
-      DefinitionBody:
-        swagger: 2.0
-        info:
-          version: '1.0'
-          title: 'A nice title'
-        basePath: /dev
-        schemes:
-          - 'https'
+      # DefinitionBody:
+      #   swagger: 2.0
+      #   info:
+      #     version: '1.0'
+      #     title: 'A nice title'
+      #   basePath: /dev
+      #   schemes:
+      #     - 'https'
         # paths:
         #   # options:
         #   #   x-amazon-apigateway-any-method:
