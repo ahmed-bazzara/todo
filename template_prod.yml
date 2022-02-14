@@ -66,6 +66,24 @@ Resources:
   #           DomainName: "todo-client-bucket.s3.eu-north-1.amazonaws.com"
   #           Id: origin1
 
+  ApiGatewayCloudWatchRole:
+    Type: AWS::IAM::Role
+    Properties: 
+     AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal:
+              Service: apigateway.amazonaws.com
+            Resource:
+              - !GetAtt ToDoTable.Arn
+              - !GetAtt TodoAppCognitoUserPool.Arn
+
+      ManagedPolicyArns: 
+        - arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs
+      RoleName: ApiGatewayCloudWatchRole
+      
   ExampleFunctionIAMRole:
     Type: 'AWS::IAM::Role'
     Properties:
