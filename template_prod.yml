@@ -363,7 +363,6 @@ Resources:
       AllowedOAuthFlows:
         - code
         - implicit
-        - client_credentials
       AllowedOAuthScopes:
         - email
         - openid
