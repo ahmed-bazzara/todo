@@ -77,8 +77,8 @@ Resources:
             Principal:
               Service: apigateway.amazonaws.com
             Resource:
-              - !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ToDoTable}
-              - !Sub arn:aws:apigateway:${AWS::Region}:${AWS::AccountId}:apis/${ToDoApi}
+              - !GetAtt ToDoTable.Arn
+              - !GetAtt ToDoApi.Arn
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs
       RoleName: ApiGatewayCloudWatchRole
