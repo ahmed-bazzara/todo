@@ -394,7 +394,7 @@ Resources:
     Type: AWS::Cognito::UserPoolResourceServer
     Properties:
       Identifier: access_points
-      Name: !Sub ${Stage}-resource-server
+      Name: UserPool-resource-server
       Scopes:
         - ScopeDescription: "Read Resources"
           ScopeName: "read"
