@@ -103,6 +103,7 @@ Resources:
               Service: lambda.amazonaws.com
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - 'arn:aws:iam::aws:policy/AmazonCognitoPowerUser'
       Policies:
         - PolicyName: PolicyGeneratorLambdaPermissions
           PolicyDocument:
@@ -261,6 +262,9 @@ Resources:
         Authorizers:
           TodoAppCognitoAuthorizer:
             UserPoolArn: !GetAtt TodoAppCognitoUserPool.Arn
+            AuthorizationScopes:
+              - access_points/read
+              - access_points/write
       Cors:
         AllowCredentials: true
         AllowHeaders: "'Content-Type, Authorization, Origin'"
@@ -359,10 +363,15 @@ Resources:
       AllowedOAuthFlows:
         - code
         - implicit
+        - client_credentials
       AllowedOAuthScopes:
         - email
         - openid
         - profile
+        - access_points/read
+        - access_points/delete
+        - access_points/update
+        - access_points/write
       ExplicitAuthFlows:
         - ALLOW_USER_PASSWORD_AUTH
         - ALLOW_REFRESH_TOKEN_AUTH
@@ -379,6 +388,22 @@ Resources:
     Properties:
       Domain: !Sub todoapp-${AWS::AccountId}
       # Domain: !Sub ${AppName}-${AWS::AccountId}
+      UserPoolId: !Ref TodoAppCognitoUserPool
+
+  CognitoToDoListUserPoolResourceServer:
+    Type: AWS::Cognito::UserPoolResourceServer
+    Properties:
+      Identifier: access_points
+      Name: !Sub ${Stage}-resource-server
+      Scopes:
+        - ScopeDescription: "Read Resources"
+          ScopeName: "read"
+        - ScopeDescription: "Write Resources"
+          ScopeName: "write"
+        - ScopeDescription: "Delete Resources"
+          ScopeName: "delete"
+        - ScopeDescription: "Update Resources"
+          ScopeName: "update"
       UserPoolId: !Ref TodoAppCognitoUserPool
 
   AdminUserGroup:
