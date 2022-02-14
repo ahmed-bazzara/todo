@@ -65,6 +65,48 @@ Resources:
   #             OriginProtocolPolicy: match-viewer
   #           DomainName: "todo-client-bucket.s3.eu-north-1.amazonaws.com"
   #           Id: origin1
+
+  ExampleFunctionIAMRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal:
+              Service: lambda.amazonaws.com
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: PolicyGeneratorLambdaPermissions
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: AllowDDBTableRead
+                Effect: Allow
+                Action:
+                  - dynamodb:Query
+                  - dynamodb:GetItem
+                  - dynamodb:BatchGetItem
+                  - dynamodb:Scan
+                  - dynamodb:BatchWriteItem
+                  - dynamodb:PutItem
+                  - dynamodb:UpdateItem
+                Resource: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ToDoTable}
+              - Sid: AllowListingCognitoUsers
+                Effect: Allow
+                Action: cognito-idp:ListUsers
+                Resource: !GetAtt TodoAppCognitoUserPool.Arn
+        - PolicyName: CustomResourceLambdaPermissions
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: AllowRolePolicyUpdate
+                Effect: Allow
+                Action: iam:UpdateAssumeRolePolicy
+                Resource: '*'
+
   ToDoTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
@@ -107,63 +149,21 @@ Resources:
             Method: delete
             RestApiId:
               Ref: ToDoApi
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref ToDoTable
+      # Policies:
+      #   - DynamoDBCrudPolicy:
+      #       TableName: !Ref ToDoTable
 
   APILambdaPermission:
-    DependsOn : TasksFunction
-    Type: "AWS::Lambda::Permission"
+    DependsOn: TasksFunction
+    Type: 'AWS::Lambda::Permission'
     Properties:
       Action: lambda:InvokeFunction
-      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ToDoApi}/*"
-      FunctionName:
-        !Sub
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ToDoApi}/*'
+      FunctionName: !Sub
         - ${FuncArn}:current
         - { FuncArn: !GetAtt TasksFunction.Arn }
       Principal: apigateway.amazonaws.com
 
-  ExampleFunctionIAMRole:
-   Type: "AWS::IAM::Role"
-   Properties:
-     Path: "/"
-    #  ManagedPolicyArns:
-    #      - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-     AssumeRolePolicyDocument:
-       Version: "2012-10-17"
-       Statement:
-        #  -
-        #    Effect: "Allow"
-        #    Action:
-        #      - "sts:AssumeRole"
-        #    Principal:
-        #      Service:
-        #        - "lambda.amazonaws.com"
-         -
-           Effect: "Allow"
-           Action:
-             - "dynamodb:BatchGetItem"
-             - "dynamodb:GetItem"
-             - "dynamodb:Query"
-             - "dynamodb:Scan"
-             - "dynamodb:BatchWriteItem"
-             - "dynamodb:PutItem"
-             - "dynamodb:UpdateItem"
-           Principal:
-             Service:
-               - "dynamodb.amazonaws.com"
-     Policies: # Inline Policies
-       -
-         PolicyName: "CW-Logs"
-         PolicyDocument:
-           Version: "2012-10-17"
-           Statement:
-             -
-               Effect: "Allow"
-               Action:
-                 - "logs:*"
-               Resource: "*"
-    
   ToDoApi:
     Type: AWS::Serverless::Api
     Properties:
@@ -172,11 +172,11 @@ Resources:
       DefinitionBody:
         swagger: 2.0
         info:
-          version: "1.0"
-          title: "A nice title"
+          version: '1.0'
+          title: 'A nice title'
         basePath: /dev
         schemes:
-          - "https"
+          - 'https'
         paths:
           # options:
           #   x-amazon-apigateway-any-method:
@@ -199,13 +199,13 @@ Resources:
                 httpMethod: POST
                 passthroughBehavior: when_no_match
                 type: aws_proxy
-                uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksFunction.Arn}:${AutoPublishAliasName}/invocations"
+                uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksFunction.Arn}:${AutoPublishAliasName}/invocations'
           /:
             x-amazon-apigateway-any-method:
               produces:
                 - application/json
               x-amazon-apigateway-integration:
-                uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksFunction.Arn}:${AutoPublishAliasName}/invocations"
+                uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksFunction.Arn}:${AutoPublishAliasName}/invocations'
                 passthroughBehavior: when_no_match
                 httpMethod: POST
                 type: aws_proxy
@@ -361,18 +361,18 @@ Resources:
 
 Outputs:
   UserPoolId:
-    Description: "User pool ID"
+    Description: 'User pool ID'
     Value: !Ref TodoAppCognitoUserPool
     Export:
       Name: TodoApp:UserPoolId
       # Name: !Sub ${AppName}:UserPoolId
 
   UserPoolClientId:
-    Description: "Application client ID"
+    Description: 'Application client ID'
     Value: !Ref TodoAppCognitoUserPoolClient
 
   AuthUrl:
-    Description: "URL user for authentication"
+    Description: 'URL user for authentication'
     Value: !Sub https://${TodoAppCognitoUserPoolDomain}.auth.${AWS::Region}.amazincognito.com
   # local test sam local invoke -e ./src/handlers/get-lists-function/lambda_event.json GetListsFunction
 
