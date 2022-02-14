@@ -222,6 +222,10 @@ Resources:
             x-amazon-apigateway-any-method:
                 produces:
                   - application/json
+                security:
+                  - TodoAppCognitoUserPool:
+                    - access_points/read
+                    - access_points/write
                 x-amazon-apigateway-integration:
                   uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksFunction.Arn}:${AutoPublishAliasName}/invocations'
                   passthroughBehavior: when_no_match
