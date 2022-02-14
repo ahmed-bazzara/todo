@@ -7,6 +7,6 @@ s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-zrwmzw4umqy7"
 s3_prefix = "todo-app"
 region = "eu-north-1"
 confirm_changeset = true
-capabilities = "CAPABILITY_IAM"
+capabilities = ["CAPABILITY_IAM", "CAPABILITY_NAMED_IAM"]
 image_repositories = []
 

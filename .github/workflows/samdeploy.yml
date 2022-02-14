@@ -34,4 +34,4 @@ jobs:
       # - run: sam build --use-container --template-file dist/getFunction/template.yml
       # - run: yarn run webpack && sam build --use-container --template-file ./handlers/create-list-function/.aws-sam/build/template.yaml
       - name: Deploy SAM Infrastructure
-        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM
+        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
