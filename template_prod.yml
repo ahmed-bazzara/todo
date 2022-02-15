@@ -105,7 +105,7 @@ Resources:
               Service: lambda.amazonaws.com
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
-        - 'arn:aws:iam::aws:policy/AmazonCognitoPowerUser'
+        - arn:aws:iam::aws:policy/AmazonCognitoPowerUser
       Policies:
         - PolicyName: PolicyGeneratorLambdaPermissions
           PolicyDocument:
@@ -220,21 +220,7 @@ Resources:
           #             type: string
           #           Access-Control-Allow-Headers:
           #             type: string
-          /tasks:
-            # options:
-            #   produces:
-            #     - application/json
-            #   responses:
-            #     '200':
-            #       description: 200 response
-            #       headers:
-            #         Access-Control-Allow-Origin:
-            #           type: string
-            #         Access-Control-Allow-Methods:
-            #           type: string
-            #         Access-Control-Allow-Headers:
-            #           type: string
-            x-amazon-apigateway-any-method:
+          x-amazon-apigateway-any-method:
                 produces:
                   - application/json
                 # security:
@@ -246,6 +232,32 @@ Resources:
                   passthroughBehavior: when_no_match
                   httpMethod: POST
                   type: aws_proxy
+          # /tasks:
+          #   # options:
+          #   #   produces:
+          #   #     - application/json
+          #   #   responses:
+          #   #     '200':
+          #   #       description: 200 response
+          #   #       headers:
+          #   #         Access-Control-Allow-Origin:
+          #   #           type: string
+          #   #         Access-Control-Allow-Methods:
+          #   #           type: string
+          #   #         Access-Control-Allow-Headers:
+          #   #           type: string
+          #   x-amazon-apigateway-any-method:
+          #       produces:
+          #         - application/json
+          #       # security:
+          #       #   - TodoAppCognitoUserPool:
+          #       #     - access_points/read
+          #       #     - access_points/write
+          #       x-amazon-apigateway-integration:
+          #         uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksFunction.Arn}:${AutoPublishAliasName}/invocations"
+          #         passthroughBehavior: when_no_match
+          #         httpMethod: POST
+          #         type: aws_proxy
             # options:
             #   x-amazon-apigateway-any-method:
             #     produces:
