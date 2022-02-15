@@ -22,7 +22,7 @@ export const handler = async (
   // return buildResponse(200, body);
   console.log({ event });
   console.log({ context });
-  // console.log(process.env.NODE_ENV);
+  console.log(process.env.NODE_ENV);
 
   let body;
   let statusCode = 200;
@@ -34,7 +34,7 @@ export const handler = async (
         : 'https://letsdo-list.com',
     'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
     'Access-Control-Allow-Headers':
-      'Content-Type, Authorization, Origin, x-api-key',
+      'Content-Type, Authorization, Origin, x-api-key, X-Amz-Security-Token',
   };
 
   try {

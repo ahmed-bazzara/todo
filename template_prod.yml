@@ -288,7 +288,7 @@ Resources:
             #   - access_points/write
       Cors:
         AllowCredentials: true
-        AllowHeaders: "'Content-Type, Authorization, Origin'"
+        AllowHeaders: "'Content-Type,Authorization,Origin,x-api-key,X-Amz-Security-Token'"
         AllowMethods: "'GET,POST,DELETE,OPTIONS'"
         AllowOrigin: "'https://letsdo-list.com'"
       # Cors:
