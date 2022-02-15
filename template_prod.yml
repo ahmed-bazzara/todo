@@ -240,8 +240,8 @@ Resources:
                 - https://www.letsdo-list.com
                 - http://localhost:3001
               allowHeaders:
-                - "x-apigateway-header",
-                - "x-amz-date",
+                - "x-apigateway-header"
+                - "x-amz-date"
                 - "Content-Type"
                 - "x-api-key"
                 - "X-Amz-Security-Token"
