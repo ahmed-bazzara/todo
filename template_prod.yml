@@ -434,6 +434,54 @@ Resources:
         -
           ClientId: !Ref TodoAppCognitoUserPoolClient
           ProviderName: !GetAtt TodoAppCognitoUserPool.ProviderName
+
+  TodoAppCognitoIdentityPoolIamRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+    AssumeRolePolicyDocument:
+      Version: "2012-10-17"
+      Statement:
+        -
+          Effect: "Allow"
+          Action:
+            - "sts:AssumeRoleWithWebIdentity"
+          Condition: { "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated" },  "StringEquals": {"cognito-identity.amazonaws.com:aud": !Ref TodoAppCognitoIdentityPool}}
+          Principal:
+            Federated:
+              - "cognito-identity.amazonaws.com"
+    Path: "/"
+    "Policies":
+      -
+        PolicyName: main
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            -
+              Effect: "Allow"
+              Action:
+                - "cloudformation:CreateStack"
+                - "cloudformation:UpdateStack"
+                - "cloudformation:DeleteStack"
+                - "cloudformation:CreateUploadBucket"
+                - "cloudformation:DescribeStacks"
+                - "cloudformation:DescribeStackEvents"
+                - "cloudformation:GetTemplateSummary"
+                - "cloudformation:ListStacks"
+                - "cloudformation:ListStackResources"
+                - "s3:CreateBucket"
+                - "s3:GetObject"
+                - "s3:PutObject"
+                - "mobileanalytics:PutEvent"
+                - "cognito-sync:*"
+                - "cognito-identity:*"
+              Resource: "*" 
+
+  TodoAppCognitoIdentityPoolRole:
+    Type: AWS::Cognito::IdentityPoolRoleAttachment
+    Properties:
+      IdentityPoolId: !Ref TodoAppCognitoIdentityPool
+      Roles: {"authenticated": !GetAtt TodoAppCognitoIdentityPoolIamRole.Arn}
+      
   # CognitoToDoListUserPoolResourceServer:
   #   Type: AWS::Cognito::UserPoolResourceServer
   #   Properties:
