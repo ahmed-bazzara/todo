@@ -75,7 +75,9 @@ Resources:
           - Effect: Allow
             Action: sts:AssumeRole
             Principal:
-              Service: apigateway.amazonaws.com
+              Service:
+                - lambda.amazonaws.com
+                - apigateway.amazonaws.com
             # Resource:
             #   - Fn::Join:
             #     - "/"
@@ -280,24 +282,30 @@ Resources:
         Authorizers:
           TodoAppCognitoAuthorizer:
             UserPoolArn: !GetAtt TodoAppCognitoUserPool.Arn
+            # FunctionArn: !GetAtt TasksFunction.Arn
             # AuthorizationScopes:
             #   - access_points/read
             #   - access_points/write
       Cors:
         AllowCredentials: true
-        AllowHeaders:
-          - Content-type
-          - x-api-key
-          - Authorization
-        AllowMethods:
-          - GET
-          - POST
-          - DELETE
-          - PUT
-          - OPTIONS
-        AllowOrigin:
-          - http://localhost:3001
-          - https://letsdo-list.com
+        AllowHeaders: "'Content-Type, Authorization, Origin'"
+        AllowMethods: "'GET,POST,DELETE,OPTIONS'"
+        AllowOrigin: "'https://letsdo-list.com'"
+      # Cors:
+      #   AllowCredentials: true
+      #   AllowHeaders:
+      #     - Content-type
+      #     - x-api-key
+      #     - Authorization
+      #   AllowMethods:
+      #     - GET
+      #     - POST
+      #     - DELETE
+      #     - PUT
+      #     - OPTIONS
+      #   AllowOrigin:
+      #     - http://localhost:3001
+      #     - https://letsdo-list.com
       EndpointConfiguration:
         Type: REGIONAL
 

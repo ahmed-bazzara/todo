@@ -31,7 +31,7 @@ export const handler = async (
     'Access-Control-Allow-Origin':
       process.env.NODE_ENV === 'development'
         ? 'http://localhost:3001'
-        : 'https://www.letsdo-list.com',
+        : 'https://letsdo-list.com',
     'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
     'Access-Control-Allow-Headers':
       'Content-Type, Authorization, Origin, x-api-key',
