@@ -155,31 +155,31 @@ Resources:
       Runtime: nodejs12.x
       Handler: tasksHandler.handler
       Role: !GetAtt ExampleFunctionIAMRole.Arn
-      # Events:
-      #   CreateListEvent:
-      #     Type: Api
-      #     Properties:
-      #       Path: /createList
-      #       Method: post
-      #       RestApiId:
-      #         Ref: ToDoApi
-      #   GetListsEvent:
-      #     Type: Api
-      #     Properties:
-      #       Path: /getLists
-      #       Method: get
-      #       RestApiId:
-      #         Ref: ToDoApi
-      #   RemoveListsEvent:
-      #     Type: Api
-      #     Properties:
-      #       Path: /removeList/{id}
-      #       Method: delete
-      #       RestApiId:
-      #         Ref: ToDoApi
-      # Policies:
-      #   - DynamoDBCrudPolicy:
-      #       TableName: !Ref ToDoTable
+      Events:
+        CreateListEvent:
+          Type: Api
+          Properties:
+            Path: /tasks
+            Method: post
+            RestApiId:
+              Ref: ToDoApi
+        GetListsEvent:
+          Type: Api
+          Properties:
+            Path: /tasks
+            Method: get
+            RestApiId:
+              Ref: ToDoApi
+        # RemoveListsEvent:
+        #   Type: Api
+        #   Properties:
+        #     Path: /tasks/{id}
+        #     Method: delete
+        #     RestApiId:
+        #       Ref: ToDoApi
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ToDoTable
 
   APILambdaPermission:
     DependsOn: TasksFunction
