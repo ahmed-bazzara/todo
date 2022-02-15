@@ -1,5 +1,9 @@
 import * as AWS from 'aws-sdk';
-import { APIGatewayProxyEvent, APIGatewayProxyResult, APIGatewayProxyCallback } from 'aws-lambda';
+import {
+  APIGatewayProxyEvent,
+  APIGatewayProxyResult,
+  APIGatewayProxyCallback,
+} from 'aws-lambda';
 // import { buildResponse, scanDynamoRecords } from '../utilities';
 import { STOCKHOLM_REGION } from '../aws_constants';
 AWS.config.update({ region: STOCKHOLM_REGION });
@@ -18,7 +22,8 @@ export const handler = async (
   // return buildResponse(200, body);
   console.log({ event });
   console.log({ context });
-  
+  // console.log(process.env.NODE_ENV);
+
   let body;
   let statusCode = 200;
   const headers = {
@@ -28,7 +33,8 @@ export const handler = async (
         ? 'http://localhost:3001'
         : 'https://www.letsdo-list.com',
     'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization, Origin',
+    'Access-Control-Allow-Headers':
+      'Content-Type, Authorization, Origin, x-api-key',
   };
 
   try {
