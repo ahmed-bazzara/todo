@@ -425,6 +425,15 @@ Resources:
       # Domain: !Sub ${AppName}-${AWS::AccountId}
       UserPoolId: !Ref TodoAppCognitoUserPool
 
+  TodoAppCognitoIdentityPool:
+    Type: AWS::Cognito::IdentityPool
+    Properties:
+      AllowUnauthenticatedIdentities: false
+      IdentityPoolName: TodoAppCognitoIdentityPool
+      CognitoIdentityProviders:
+        -
+          ClientId: !Ref TodoAppCognitoUserPoolClient
+          ProviderName: !GetAtt TodoAppCognitoUserPool.ProviderName
   # CognitoToDoListUserPoolResourceServer:
   #   Type: AWS::Cognito::UserPoolResourceServer
   #   Properties:
