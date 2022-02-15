@@ -71,6 +71,8 @@ export const handler = async (
     body = JSON.stringify(body);
   }
 
+  console.log({ statusCode });
+
   return {
     statusCode,
     body,

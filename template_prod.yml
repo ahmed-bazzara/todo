@@ -14,11 +14,11 @@ Transform:
 
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
-# Parameters:
-#   AutoPublishAliasName:
-#     Type: String
-#     Default: current
-#     Description: The alias used for Auto Publishing
+Parameters:
+  AutoPublishAliasName:
+    Type: String
+    Default: current
+    Description: The alias used for Auto Publishing
 # Parameters:
 #   AppName:
 #     Type: String
@@ -149,7 +149,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: .
-      # AutoPublishAlias: !Ref AutoPublishAliasName
+      AutoPublishAlias: !Ref AutoPublishAliasName
       FunctionName: TasksFunction
       Description: A Lambda function that connects to a gateway API for to-do list
       Runtime: nodejs12.x
@@ -177,9 +177,9 @@ Resources:
       #       Method: delete
       #       RestApiId:
       #         Ref: ToDoApi
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref ToDoTable
+      # Policies:
+      #   - DynamoDBCrudPolicy:
+      #       TableName: !Ref ToDoTable
 
   APILambdaPermission:
     DependsOn: TasksFunction
@@ -242,7 +242,7 @@ Resources:
                 #     - access_points/read
                 #     - access_points/write
                 x-amazon-apigateway-integration:
-                  uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksFunction.Arn}/invocations"
+                  uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksFunction.Arn}:${AutoPublishAliasName}/invocations"
                   passthroughBehavior: when_no_match
                   httpMethod: POST
                   type: aws_proxy
