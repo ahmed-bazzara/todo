@@ -222,10 +222,10 @@ Resources:
             x-amazon-apigateway-any-method:
                 produces:
                   - application/json
-                security:
-                  - TodoAppCognitoUserPool:
-                    - access_points/read
-                    - access_points/write
+                # security:
+                #   - TodoAppCognitoUserPool:
+                #     - access_points/read
+                #     - access_points/write
                 x-amazon-apigateway-integration:
                   uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksFunction.Arn}:${AutoPublishAliasName}/invocations'
                   passthroughBehavior: when_no_match
@@ -266,9 +266,9 @@ Resources:
         Authorizers:
           TodoAppCognitoAuthorizer:
             UserPoolArn: !GetAtt TodoAppCognitoUserPool.Arn
-            AuthorizationScopes:
-              - access_points/read
-              - access_points/write
+            # AuthorizationScopes:
+            #   - access_points/read
+            #   - access_points/write
       Cors:
         AllowCredentials: true
         AllowHeaders: "'Content-Type, Authorization, Origin'"
@@ -365,16 +365,16 @@ Resources:
       # CallbackURLs: !Ref ClientDomains
       # LogoutURLs: !Ref ClientDomains
       AllowedOAuthFlows:
-        - code
         - implicit
+        - code
       AllowedOAuthScopes:
         - email
         - openid
         - profile
-        - access_points/read
-        - access_points/delete
-        - access_points/update
-        - access_points/write
+        # - access_points/read
+        # - access_points/delete
+        # - access_points/update
+        # - access_points/write
       ExplicitAuthFlows:
         - ALLOW_USER_PASSWORD_AUTH
         - ALLOW_REFRESH_TOKEN_AUTH
@@ -393,21 +393,21 @@ Resources:
       # Domain: !Sub ${AppName}-${AWS::AccountId}
       UserPoolId: !Ref TodoAppCognitoUserPool
 
-  CognitoToDoListUserPoolResourceServer:
-    Type: AWS::Cognito::UserPoolResourceServer
-    Properties:
-      Identifier: access_points
-      Name: UserPool-resource-server
-      Scopes:
-        - ScopeDescription: "Read Resources"
-          ScopeName: "read"
-        - ScopeDescription: "Write Resources"
-          ScopeName: "write"
-        - ScopeDescription: "Delete Resources"
-          ScopeName: "delete"
-        - ScopeDescription: "Update Resources"
-          ScopeName: "update"
-      UserPoolId: !Ref TodoAppCognitoUserPool
+  # CognitoToDoListUserPoolResourceServer:
+  #   Type: AWS::Cognito::UserPoolResourceServer
+  #   Properties:
+  #     Identifier: access_points
+  #     Name: UserPool-resource-server
+  #     Scopes:
+  #       - ScopeDescription: "Read Resources"
+  #         ScopeName: "read"
+  #       - ScopeDescription: "Write Resources"
+  #         ScopeName: "write"
+  #       - ScopeDescription: "Delete Resources"
+  #         ScopeName: "delete"
+  #       - ScopeDescription: "Update Resources"
+  #         ScopeName: "update"
+  #     UserPoolId: !Ref TodoAppCognitoUserPool
 
   AdminUserGroup:
     Type: AWS::Cognito::UserPoolGroup
