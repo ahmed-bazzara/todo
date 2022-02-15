@@ -187,41 +187,41 @@ Resources:
     Properties:
       Name: ToDoApi
       StageName: dev
-      DefinitionBody:
-        swagger: 2.0
-        info:
-          version: '1.0'
-          title: 'A nice title'
-        basePath: /dev
-        schemes:
-          - 'https'
-        paths:
-          # options:
-          #   x-amazon-apigateway-any-method:
-          #     produces:
-          #       - application/json
-          #     responses:
-          #       '200':
-          #         description: 200 response
-          #         headers:
-          #           Access-Control-Allow-Origin:
-          #             type: string
-          #           Access-Control-Allow-Methods:
-          #             type: string
-          #           Access-Control-Allow-Headers:
-          #             type: string
-          x-amazon-apigateway-any-method:
-              produces:
-                - application/json
-              # security:
-              #   - TodoAppCognitoUserPool:
-              #     - access_points/read
-              #     - access_points/write
-              x-amazon-apigateway-integration:
-                uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksFunction.Arn}:${AutoPublishAliasName}/invocations'
-                passthroughBehavior: when_no_match
-                httpMethod: POST
-                type: aws_proxy
+      # DefinitionBody:
+      #   swagger: 2.0
+      #   info:
+      #     version: '1.0'
+      #     title: 'A nice title'
+      #   basePath: /dev
+      #   schemes:
+      #     - 'https'
+      #   paths:
+      #     # options:
+      #     #   x-amazon-apigateway-any-method:
+      #     #     produces:
+      #     #       - application/json
+      #     #     responses:
+      #     #       '200':
+      #     #         description: 200 response
+      #     #         headers:
+      #     #           Access-Control-Allow-Origin:
+      #     #             type: string
+      #     #           Access-Control-Allow-Methods:
+      #     #             type: string
+      #     #           Access-Control-Allow-Headers:
+      #     #             type: string
+      #     x-amazon-apigateway-any-method:
+      #         produces:
+      #           - application/json
+      #         # security:
+      #         #   - TodoAppCognitoUserPool:
+      #         #     - access_points/read
+      #         #     - access_points/write
+      #         x-amazon-apigateway-integration:
+      #           uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksFunction.Arn}:${AutoPublishAliasName}/invocations'
+      #           passthroughBehavior: when_no_match
+      #           httpMethod: POST
+      #           type: aws_proxy
           # /tasks:
           #   x-amazon-apigateway-any-method:
           #       produces:

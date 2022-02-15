@@ -197,60 +197,60 @@ Resources:
     Properties:
       Name: ToDoApi
       StageName: dev
-      DefinitionBody:
-        swagger: 2.0
-        info:
-          version: '1.0'
-          title: 'A nice title'
-        basePath: /dev
-        schemes:
-          - 'https'
-        paths:
-          # options:
-          #   x-amazon-apigateway-any-method:
-          #     produces:
-          #       - application/json
-          #     responses:
-          #       '200':
-          #         description: 200 response
-          #         headers:
-          #           Access-Control-Allow-Origin:
-          #             type: string
-          #           Access-Control-Allow-Methods:
-          #             type: string
-          #           Access-Control-Allow-Headers:
-          #             type: string
-          /tasks:
-            # options:
-            #   produces:
-            #     - application/json
-            #   responses:
-            #     '200':
-            #       description: 200 response
-            #       headers:
-            #         Access-Control-Allow-Origin:
-            #           type: string
-            #         Access-Control-Allow-Methods:
-            #           type: string
-            #         Access-Control-Allow-Headers:
-            #           type: string
-            x-amazon-apigateway-cors:
-              allowCredentials: true
-              allowOrigins:
-                - https://www.letsdo-list.com
-                - http://localhost:3001
-              allowHeaders:
-                - "x-apigateway-header"
-                - "x-amz-date"
-                - "Content-Type"
-                - "x-api-key"
-                - "X-Amz-Security-Token"
-              allowMethods:
-                - GET
-                - POST
-                - DELETE
-                - PUT
-                - OPTIONS
+      # DefinitionBody:
+      #   swagger: 2.0
+      #   info:
+      #     version: '1.0'
+      #     title: 'A nice title'
+      #   basePath: /dev
+      #   schemes:
+      #     - 'https'
+      #   paths:
+      #     # options:
+      #     #   x-amazon-apigateway-any-method:
+      #     #     produces:
+      #     #       - application/json
+      #     #     responses:
+      #     #       '200':
+      #     #         description: 200 response
+      #     #         headers:
+      #     #           Access-Control-Allow-Origin:
+      #     #             type: string
+      #     #           Access-Control-Allow-Methods:
+      #     #             type: string
+      #     #           Access-Control-Allow-Headers:
+      #     #             type: string
+      #     /tasks:
+      #       # options:
+      #       #   produces:
+      #       #     - application/json
+      #       #   responses:
+      #       #     '200':
+      #       #       description: 200 response
+      #       #       headers:
+      #       #         Access-Control-Allow-Origin:
+      #       #           type: string
+      #       #         Access-Control-Allow-Methods:
+      #       #           type: string
+      #       #         Access-Control-Allow-Headers:
+      #       #           type: string
+      #       x-amazon-apigateway-cors:
+      #         allowCredentials: true
+      #         allowOrigins:
+      #           - https://www.letsdo-list.com
+      #           - http://localhost:3001
+      #         allowHeaders:
+      #           - "x-apigateway-header"
+      #           - "x-amz-date"
+      #           - "Content-Type"
+      #           - "x-api-key"
+      #           - "X-Amz-Security-Token"
+      #         allowMethods:
+      #           - GET
+      #           - POST
+      #           - DELETE
+      #           - PUT
+      #           - OPTIONS
             # x-amazon-apigateway-any-method:
             #   produces:
             #     - application/json
