@@ -47,25 +47,6 @@ Globals:
         TABLE_NAME: ToDoTable
 
 Resources:
-  # This is an SNS Topic with all default configuration properties. To learn more about the available options, see
-  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html
-  # SimpleTopic:
-  #   Type: AWS::SNS::Topic
-  # TodoCloudFrontHosting:
-  #   Type: AWS::CloudFront::Distribution
-  #   Properties:
-  #     DistributionConfig:
-  #       DefaultCacheBehavior:
-  #         CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
-  #         TargetOriginId: origin1
-  #         ViewerProtocolPolicy: redirect-to-https
-  #       Enabled: true
-  #       Origins:
-  #         - CustomOriginConfig:
-  #             OriginProtocolPolicy: match-viewer
-  #           DomainName: "todo-client-bucket.s3.eu-north-1.amazonaws.com"
-  #           Id: origin1
-
   ApiGatewayCloudWatchRole:
     Type: 'AWS::IAM::Role'
     Properties:
@@ -78,12 +59,6 @@ Resources:
               Service:
                 - lambda.amazonaws.com
                 - apigateway.amazonaws.com
-            # Resource:
-            #   - Fn::Join:
-            #     - "/"
-            #     - 
-            #       - Fn::Join: [":", ["arn:aws:execute-api", {"Ref": "AWS::Region"}, {"Ref":"AWS::AccountId"}, {"Ref": "ToDoApi"}]]
-            #       - "*"
       ManagedPolicyArns:
         - !Sub "arn:${AWS::Partition}:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
       RoleName: ApiGatewayCloudWatchRole
@@ -197,188 +172,20 @@ Resources:
     Properties:
       Name: ToDoApi
       StageName: dev
-      # DefinitionBody:
-      #   swagger: 2.0
-      #   info:
-      #     version: '1.0'
-      #     title: 'A nice title'
-      #   basePath: /dev
-      #   schemes:
-      #     - 'https'
-      #   paths:
-      #     # options:
-      #     #   x-amazon-apigateway-any-method:
-      #     #     produces:
-      #     #       - application/json
-      #     #     responses:
-      #     #       '200':
-      #     #         description: 200 response
-      #     #         headers:
-      #     #           Access-Control-Allow-Origin:
-      #     #             type: string
-      #     #           Access-Control-Allow-Methods:
-      #     #             type: string
-      #     #           Access-Control-Allow-Headers:
-      #     #             type: string
-      #     /tasks:
-      #       # options:
-      #       #   produces:
-      #       #     - application/json
-      #       #   responses:
-      #       #     '200':
-      #       #       description: 200 response
-      #       #       headers:
-      #       #         Access-Control-Allow-Origin:
-      #       #           type: string
-      #       #         Access-Control-Allow-Methods:
-      #       #           type: string
-      #       #         Access-Control-Allow-Headers:
-      #       #           type: string
-      #       x-amazon-apigateway-cors:
-      #         allowCredentials: true
-      #         allowOrigins:
-      #           - https://www.letsdo-list.com
-      #           - http://localhost:3001
-      #         allowHeaders:
-      #           - "x-apigateway-header"
-      #           - "x-amz-date"
-      #           - "Content-Type"
-      #           - "x-api-key"
-      #           - "X-Amz-Security-Token"
-      #         allowMethods:
-      #           - GET
-      #           - POST
-      #           - DELETE
-      #           - PUT
-      #           - OPTIONS
-            # x-amazon-apigateway-any-method:
-            #   produces:
-            #     - application/json
-            #   # security:
-            #   #   - TodoAppCognitoUserPool:
-            #   #     - access_points/read
-            #   #     - access_points/write
-            #   x-amazon-apigateway-integration:
-            #     uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksFunction.Arn}:${AutoPublishAliasName}/invocations"
-            #     passthroughBehavior: when_no_match
-            #     httpMethod: POST
-            #     type: aws_proxy
-            # options:
-            #   x-amazon-apigateway-any-method:
-            #     produces:
-            #       - application/json
-            #     responses:
-            #       '200':
-            #         description: 200 response
-            #         headers:
-            #           Access-Control-Allow-Origin:
-            #             type: https://www.letsdo-list.com
-            #           Access-Control-Allow-Methods:
-            #             type: 'OPTIONS,POST,GET,PUT,DELETE'
-            #           Access-Control-Allow-Headers:
-            #             type: 'Content-Type, Authorization, Origin'
-            # get:
-            #   response: {}
-            #   x-amazon-apigateway-integration:
-            #     httpMethod: POST
-            #     passthroughBehavior: when_no_match
-            #     type: aws_proxy
-            #     uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksFunction.Arn}:${AutoPublishAliasName}/invocations'
-          # /:
-          #   x-amazon-apigateway-any-method:
-          #     produces:
-          #       - application/json
-          #     x-amazon-apigateway-integration:
-          #       uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${TasksFunction.Arn}:${AutoPublishAliasName}/invocations'
-          #       passthroughBehavior: when_no_match
-          #       httpMethod: POST
-          #       type: aws_proxy
       Auth:
         DefaultAuthorizer: TodoAppCognitoAuthorizer
         AddDefaultAuthorizerToCorsPreflight: false
         Authorizers:
           TodoAppCognitoAuthorizer:
             UserPoolArn: !GetAtt TodoAppCognitoUserPool.Arn
-            # FunctionArn: !GetAtt TasksFunction.Arn
-            # AuthorizationScopes:
-            #   - access_points/read
-            #   - access_points/write
       Cors:
         AllowCredentials: true
         AllowHeaders: "'Content-Type,Authorization,Origin,x-api-key,X-Amz-Security-Token'"
         AllowMethods: "'GET,POST,DELETE,OPTIONS'"
         AllowOrigin: "'https://www.letsdo-list.com'"
-      # Cors:
-      #   AllowCredentials: true
-      #   AllowHeaders:
-      #     - Content-type
-      #     - x-api-key
-      #     - Authorization
-      #   AllowMethods:
-      #     - GET
-      #     - POST
-      #     - DELETE
-      #     - PUT
-      #     - OPTIONS
-      #   AllowOrigin:
-      #     - http://localhost:3001
-      #     - https://letsdo-list.com
       EndpointConfiguration:
         Type: REGIONAL
 
-  # CreateListFunction:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     CodeUri: .
-  #     FunctionName: CreateListFunction
-  #     Description: A Lambda function that creates a to-do list
-  #     Runtime: nodejs12.x
-  #     Handler: createFunction/createFunction.createList
-  #     Events:
-  #       CreateListEvent:
-  #         Type: Api
-  #         Properties:
-  #           Path: /createList
-  #           Method: post
-  #           RestApiId:
-  #             Ref: ToDoApi
-  #     Policies:
-  #       - DynamoDBCrudPolicy:
-  #           TableName: !Ref ToDoTable
-  # GetListsFunction:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     CodeUri: .
-  #     FunctionName: GetListsFunction
-  #     Description: A Lambda function that gets all to-do lists
-  #     Runtime: nodejs12.x
-  #     Handler: getFunction/getFunction.getLists
-  #     Events:
-  #       GetListsEvent:
-  #         Type: Api
-  #         Properties:
-  #           Path: /getLists
-  #           Method: get
-  #           RestApiId:
-  #             Ref: ToDoApi
-
-  # RemoveListFunction:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     CodeUri: .
-  #     FunctionName: RemoveListFunction
-  #     Description: A Lambda function that gets all to-do lists
-  #     Runtime: nodejs12.x
-  #     Handler: removeFunction/removeFunction.removeList
-  #     Timeout: 5
-  #     Events:
-  #       RemoveListsEvent:
-  #         Type: Api
-  #         Properties:
-  #           Path: /removeList/{id}
-  #           Method: delete
-  #           RestApiId:
-  #             Ref: ToDoApi
   TodoAppCognitoUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
@@ -411,8 +218,6 @@ Resources:
         - https://www.letsdo-list.com/
       LogoutURLs:
         - https://www.letsdo-list.com/
-      # CallbackURLs: !Ref ClientDomains
-      # LogoutURLs: !Ref ClientDomains
       AllowedOAuthFlows:
         - implicit
         - code
@@ -420,26 +225,15 @@ Resources:
         - email
         - openid
         - profile
-        # - access_points/read
-        # - access_points/delete
-        # - access_points/update
-        # - access_points/write
       ExplicitAuthFlows:
         - ALLOW_USER_PASSWORD_AUTH
         - ALLOW_REFRESH_TOKEN_AUTH
         - ALLOW_USER_SRP_AUTH
 
-  # ToDoCognitoUserPoolDomain:
-  #   Type: AWS::Cognito::UserPoolDomain
-  #   Properties:
-  #     Domain: todoauthentication
-  #     UserPoolId: !Ref TodoAppCognitoUserPool
-
   TodoAppCognitoUserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
       Domain: !Sub todoapp-${AWS::AccountId}
-      # Domain: !Sub ${AppName}-${AWS::AccountId}
       UserPoolId: !Ref TodoAppCognitoUserPool
 
   TodoAppCognitoIdentityPool:
@@ -498,22 +292,6 @@ Resources:
     Properties:
       IdentityPoolId: !Ref TodoAppCognitoIdentityPool
       Roles: {"authenticated": !GetAtt TodoAppCognitoIdentityPoolIamRole.Arn}
-      
-  # CognitoToDoListUserPoolResourceServer:
-  #   Type: AWS::Cognito::UserPoolResourceServer
-  #   Properties:
-  #     Identifier: access_points
-  #     Name: UserPool-resource-server
-  #     Scopes:
-  #       - ScopeDescription: "Read Resources"
-  #         ScopeName: "read"
-  #       - ScopeDescription: "Write Resources"
-  #         ScopeName: "write"
-  #       - ScopeDescription: "Delete Resources"
-  #         ScopeName: "delete"
-  #       - ScopeDescription: "Update Resources"
-  #         ScopeName: "update"
-  #     UserPoolId: !Ref TodoAppCognitoUserPool
 
   AdminUserGroup:
     Type: AWS::Cognito::UserPoolGroup
@@ -576,23 +354,4 @@ Outputs:
   AuthUrl:
     Description: 'URL user for authentication'
     Value: !Sub https://${TodoAppCognitoUserPoolDomain}.auth.${AWS::Region}.amazincognito.com
-  # local test sam local invoke -e ./src/handlers/get-lists-function/lambda_event.json GetListsFunction
 
-  # SNSPayloadLogger:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     Description: A Lambda function that logs the payload of messages sent to an associated SNS topic.
-  #     Runtime: nodejs12.x
-  #     Handler: dist/handlers/sns-payload-logger.snsPayloadLoggerHandler
-  #     # This property associates this Lambda function with the SNS topic defined above, so that whenever the topic
-  #     # receives a message, the Lambda function is invoked
-  #     Events:
-  #       SNSTopicEvent:
-  #         Type: SNS
-  #         Properties:
-  #           Topic: !Ref SimpleTopic
-  #     MemorySize: 128
-  #     Timeout: 100
-  #     Policies:
-  #       # Give Lambda basic execution Permission to the helloFromLambda
-  #       - AWSLambdaBasicExecutionRole
