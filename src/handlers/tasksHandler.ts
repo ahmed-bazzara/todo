@@ -22,7 +22,6 @@ export const handler = async (
   // return buildResponse(200, body);
   console.log({ event });
   console.log({ context });
-  console.log(process.env.NODE_ENV);
 
   let body;
   let statusCode = 200;

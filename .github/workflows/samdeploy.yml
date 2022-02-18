@@ -27,7 +27,7 @@ jobs:
         run: yarn run webpack
 
       - name: Build SAM Template
-        run: sam build --use-container --template-file dist/template_prod.yml
+        run: sam build --use-container --template-file template_prod.yml
       # - run: sam build --use-container --parameter-overrides AppName=TodoApp,ClientDomains=http://localhost:3001,http://todo-client-bucket.s3-website.eu-north-1.amazonaws.com,AdminEmail=ahmed.bazzara@tretton37.com,AddGroupsToScopes=false --template-file dist/template_prod.yml
 
       # - run: sam build --use-container --template-file dist/createFunction/template.yml
