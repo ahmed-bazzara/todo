@@ -304,13 +304,13 @@ Resources:
   AdminUser:
     Type: AWS::Cognito::UserPoolUser
     Properties:
-      Username: ahmed.bazzara@tretton37.com
+      Username: ahmed.bazzara@1337.tech
       DesiredDeliveryMediums:
         - EMAIL
       ForceAliasCreation: true
       UserAttributes:
         - Name: email
-          Value: ahmed.bazzara@tretton37.com
+          Value: ahmed.bazzara@1337.tech
       UserPoolId: !Ref TodoAppCognitoUserPool
   
   SecondAdminUser:
