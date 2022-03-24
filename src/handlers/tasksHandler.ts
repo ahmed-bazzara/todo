@@ -20,8 +20,6 @@ export const handler = async (
   // const body = allCollections;
 
   // return buildResponse(200, body);
-  console.log({ event });
-  console.log({ context });
 
   let body;
   let statusCode = 200;
@@ -99,6 +97,7 @@ export const handler = async (
   }
 
   console.log({ statusCode });
+  console.log({ body });
 
   return {
     statusCode,

@@ -145,6 +145,13 @@ Resources:
             Method: get
             RestApiId:
               Ref: ToDoApi
+        UpdateOrCreateListsEvent:
+          Type: Api
+          Properties:
+            Path: /tasks
+            Method: put
+            RestApiId:
+              Ref: ToDoApi
         # RemoveListsEvent:
         #   Type: Api
         #   Properties:

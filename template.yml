@@ -167,6 +167,13 @@ Resources:
             Method: get
             RestApiId:
               Ref: ToDoApi
+        GetListsEvent:
+          Type: Api
+          Properties:
+            Path: /tasks
+            Method: put
+            RestApiId:
+              Ref: ToDoApi
       # Policies:
       #   - DynamoDBCrudPolicy:
       #       TableName: !Ref ToDoTable
