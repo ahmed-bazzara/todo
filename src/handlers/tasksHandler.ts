@@ -31,7 +31,7 @@ export const handler = async (
       process.env.NODE_ENV === 'development'
         ? 'http://localhost:3001'
         : 'https://www.letsdo-list.com',
-    'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+    'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
     'Access-Control-Allow-Headers':
       'Content-Type, Authorization, Origin, x-api-key, X-Amz-Security-Token',
   };
