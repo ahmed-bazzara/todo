@@ -31,7 +31,7 @@ export const handler = async (
       process.env.NODE_ENV === 'development'
         ? 'http://localhost:3001'
         : 'https://www.letsdo-list.com',
-    'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
+    'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,PATCH,DELETE',
     'Access-Control-Allow-Headers':
       'Content-Type, Authorization, Origin, x-api-key, X-Amz-Security-Token',
   };
@@ -44,20 +44,52 @@ export const handler = async (
         }
         break;
       case 'GET':
-        if (event.queryStringParameters?.TableName) {
+        if (
+          event.queryStringParameters?.TableName &&
+          event.queryStringParameters?.id
+        ) {
+          body = await dynamo
+            .get({
+              TableName: event.queryStringParameters.TableName,
+              Key: { id: event.queryStringParameters.id },
+            })
+            .promise();
+        } else if (event.queryStringParameters?.TableName) {
           body = await dynamo
             .scan({ TableName: event.queryStringParameters.TableName })
             .promise();
         }
         break;
-      case 'POST':
-        if (event.body) {
-          body = await dynamo.put(JSON.parse(event.body)).promise();
+      case 'PUT':
+        if (event.body && event.queryStringParameters?.TableName) {
+          const requestJSON = JSON.parse(event.body);
+          body = await dynamo
+            .put({
+              TableName: event.queryStringParameters.TableName,
+              Item: {
+                id: requestJSON.id,
+                tasks: requestJSON.tasks,
+                groups: requestJSON.groups,
+              },
+            })
+            .promise();
         }
         break;
-      case 'PUT':
-        if (event.body) {
-          body = await dynamo.update(JSON.parse(event.body)).promise();
+      case 'PATCH':
+        if (event.body && event.queryStringParameters?.TableName) {
+          const requestJSON = JSON.parse(event.body);
+          body = await dynamo
+            .update({
+              TableName: event.queryStringParameters.TableName,
+              Key: { id: requestJSON.id },
+              // UpdateExpression
+              // Item: {
+              //   id: requestJSON.id,
+              //   tasks: requestJSON.tasks,
+              //   groups: requestJSON.groups,
+              // },
+            })
+            .promise();
         }
         break;
       default:
