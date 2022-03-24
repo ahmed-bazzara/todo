@@ -66,11 +66,7 @@ export const handler = async (
           body = await dynamo
             .put({
               TableName: event.queryStringParameters.TableName,
-              Item: {
-                id: requestJSON.id,
-                tasks: requestJSON.tasks,
-                groups: requestJSON.groups,
-              },
+              Item: requestJSON,
             })
             .promise();
         }
